@@ -1,0 +1,16 @@
+.env
+bingowdocker/media/
+bingowdocker/db/
+__pycache__/
+DOCKERFILE
+.dockerignore
+*.pyc
+*.pyo
+*.pyd
+web/utils
+/data.txt
+products.xml
+fixture.json
+entrypoint.sh
+docker-compose.yml
+/nginx

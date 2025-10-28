@@ -1,0 +1,1136 @@
+{% load static %}
+
+<html lang="en">
+
+
+<!-- Bingo Mart//home/  22 Nov 2019 09:59:06 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Bingo Mart</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Bingo Mart">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/images/icons/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/icons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/icons/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'assets/images/icons/site.html' %}">
+    <link rel="mask-icon" href="{% static 'assets/images/icons/safari-pinned-tab.svg' %}" color="#666666">
+    <link rel="shortcut icon" href="{% static 'assets/images/icons/favicon.ico' %}">
+    <meta name="apple-mobile-web-app-title" content="Bingo Mart">
+    <meta name="application-name" content="Bingo Mart">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="{% static 'assets/images/icons/browserconfig.xml' %}">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="{% static 'assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css' %}">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/owl-carousel/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/magnific-popup/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/jquery.countdown.css' %}">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/skins/skin-demo-13.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/demos/demo-13.css' %}">
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <header class="header header-10 header-intro-clearance">
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-left">
+                        <a href="tel:#"><i class="icon-phone"></i>Call: + 254 0716551972</a>
+                    </div><!-- End .header-left -->
+
+                    <div class="header-right">
+
+                        <ul class="top-menu">
+                            <li>
+                                <a href="#">Links</a>
+                                <ul>
+                                    <li>
+                                        <div class="header-dropdown">
+                                            <a href="#">Ksh</a>
+                                            <div class="header-menu">
+                                                <ul>
+                                                </ul>
+                                            </div><!-- End .header-menu -->
+                                        </div><!-- End .header-dropdown -->
+                                    </li>
+                                    <li>   
+                                        <div class="header-dropdown">
+                                            <a href="#">English</a>
+                                            <div class="header-menu">
+                                                <ul>
+                                                    <li><a href="#">English</a></li>
+                                                </ul>
+                                            </div><!-- End .header-menu -->
+                                        </div><!-- End .header-dropdown -->
+                                    </li>
+                                    <li class="login">
+                                        <a href="#signin-modal" data-toggle="modal">Sign in / Sign up</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul><!-- End .top-menu -->
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-top -->
+
+            <div class="header-middle">
+                <div class="container">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggler">
+                            <span class="sr-only">Toggle mobile menu</span>
+                            <i class="icon-bars"></i>
+                        </button>
+                        
+                        <a href="/" class="logo">
+                            <img src="{% static 'assets/images/demos/demo-13/logo.png' %}" alt="Bingo Mart Logo" width="105" height="25">
+                        </a>
+                    </div><!-- End .header-left -->
+
+                    <div class="header-center">
+                        <div class="header-search header-search-extended header-search-visible header-search-no-radius d-none d-lg-block">
+                            <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                            <form action="/search/" method="get">
+                            {% csrf_token %}
+                                <div class="header-search-wrapper search-wrapper-wide">
+                                    <div class="select-custom">
+                                        <select id="cat" name="cat">
+                                        {% for item in category %}
+                                            <option value="">{{item.name}}</option>
+                                        {% endfor %}
+                                        </select>
+                                    </div><!-- End .select-custom -->
+                                    <label for="search" class="sr-only">Search</label>
+                                    {{search.search}}
+                                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                                </div><!-- End .header-search-wrapper -->
+                            </form>
+                        </div><!-- End .header-search -->
+                    </div>
+
+                    <div class="header-right">
+                        <div class="header-dropdown-link">
+                            <div class="dropdown compare-dropdown">
+                                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
+                                    <i class="icon-random"></i>
+                                    <span class="compare-txt">Compare</span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <ul class="compare-products">
+                                        <li class="compare-product">
+                                            <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                            <h4 class="compare-product-title"><a href="/product/">Blue Night Dress</a></h4>
+                                        </li>
+                                        <li class="compare-product">
+                                            <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                            <h4 class="compare-product-title"><a href="/product/">White Long Skirt</a></h4>
+                                        </li>
+                                    </ul>
+
+                                    <div class="compare-actions">
+                                        <a href="#" class="action-link">Clear All</a>
+                                        <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i class="icon-long-arrow-right"></i></a>
+                                    </div>
+                                </div><!-- End .dropdown-menu -->
+                            </div><!-- End .compare-dropdown -->
+
+                            <a href="/wishlist/" class="wishlist-link">
+                                <i class="icon-heart-o"></i>
+                                <span class="wishlist-count">3</span>
+                                <span class="wishlist-txt">Wishlist</span>
+                            </a>
+
+                            <div class="dropdown cart-dropdown">
+                                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                    <i class="icon-shopping-cart"></i>
+                                    <span class="cart-count">2</span>
+                                    <span class="cart-txt">Cart</span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <div class="dropdown-cart-products">
+                                        <div class="product">
+                                            <div class="product-cart-details">
+                                                <h4 class="product-title">
+                                                    <a href="/product/">Beige knitted elastic runner shoes</a>
+                                                </h4>
+
+                                                <span class="cart-product-info">
+                                                    <span class="cart-product-qty">1</span>
+                                                    x $84.00
+                                                </span>
+                                            </div><!-- End .product-cart-details -->
+
+                                            <figure class="product-image-container">
+                                                <a href="/product/" class="product-image">
+                                                    <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">
+                                                </a>
+                                            </figure>
+                                            <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        </div><!-- End .product -->
+
+                                        <div class="product">
+                                            <div class="product-cart-details">
+                                                <h4 class="product-title">
+                                                    <a href="/product/">Blue utility pinafore denim dress</a>
+                                                </h4>
+
+                                                <span class="cart-product-info">
+                                                    <span class="cart-product-qty">1</span>
+                                                    x $76.00
+                                                </span>
+                                            </div><!-- End .product-cart-details -->
+
+                                            <figure class="product-image-container">
+                                                <a href="/product/" class="product-image">
+                                                    <img src="{% static 'assets/images/products/cart/product-2.jpg' %}" alt="product">
+                                                </a>
+                                            </figure>
+                                            <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        </div><!-- End .product -->
+                                    </div><!-- End .cart-product -->
+
+                                    <div class="dropdown-cart-total">
+                                        <span>Total</span>
+
+                                        <span class="cart-total-price">$160.00</span>
+                                    </div><!-- End .dropdown-cart-total -->
+
+                                    <div class="dropdown-cart-action">
+                                        <a href="/cart/" class="btn btn-primary">View Cart</a>
+                                        <a href="/checkout/" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                    </div><!-- End .dropdown-cart-total -->
+                                </div><!-- End .dropdown-menu -->
+                            </div><!-- End .cart-dropdown -->
+                        </div>
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-middle -->
+
+            <div class="header-bottom sticky-header">
+                <div class="container">
+                    <div class="header-left">
+                        <div class="dropdown category-dropdown show is-on" data-visible="true">
+                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-display="static" title="Browse Categories">
+                                Browse Categories
+                            </a>
+
+                            <div class="dropdown-menu">
+                                <nav class="side-nav">
+                                    <ul class="menu-vertical sf-arrows">
+                                        <li class="megamenu-container">
+                                            <a class="sf-with-ul" href="#">Electronics</a>
+
+                                            <!--div class="megamenu">
+                                                <div class="row no-gutters">
+                                                    <div class="col-md-8">
+                                                        <div class="menu-col">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="menu-title">Laptops & Computers</div><End .menu-title>
+                                                                    <ul>
+                                                                        <li><a href="#">Desktop Computers</a></li>
+                                                                        <li><a href="#">Monitors</a></li>
+                                                                        <li><a href="#">Laptops</a></li>
+                                                                        <li><a href="#">iPad & Tablets</a></li>
+                                                                        <li><a href="#">Hard Drives & Storage</a></li>
+                                                                        <li><a href="#">Printers & Supplies</a></li>
+                                                                        <li><a href="#">Computer Accessories</a></li>
+                                                                    </ul>
+
+                                                                    <div class="menu-title">TV & Video</div><End .menu-title>
+                                                                    <ul>
+                                                                        <li><a href="#">TVs</a></li>
+                                                                        <li><a href="#">Home Audio Speakers</a></li>
+                                                                        <li><a href="#">Projectors</a></li>
+                                                                        <li><a href="#">Media Streaming Devices</a></li>
+                                                                    </ul>
+                                                                </div><End .col-md-6>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="menu-title">Cell Phones</div><End .menu-title>
+                                                                    <ul>
+                                                                        <li><a href="#">Carrier Phones</a></li>
+                                                                        <li><a href="#">Unlocked Phones</a></li>
+                                                                        <li><a href="#">Phone & Cellphone Cases</a></li>
+                                                                        <li><a href="#">Cellphone Chargers </a></li>
+                                                                    </ul>
+
+                                                                    <div class="menu-title">Digital Cameras</div><End .menu-title>
+                                                                    <ul>
+                                                                        <li><a href="#">Digital SLR Cameras</a></li>
+                                                                        <li><a href="#">Sports & Action Cameras</a></li>
+                                                                        <li><a href="#">Camcorders</a></li>
+                                                                        <li><a href="#">Camera Lenses</a></li>
+                                                                        <li><a href="#">Photo Printer</a></li>
+                                                                        <li><a href="#">Digital Memory Cards</a></li>
+                                                                        <li><a href="#">Camera Bags, Backpacks & Cases</a></li>
+                                                                    </ul>
+                                                                </div>End .col-md-6>
+                                                            </div>End .row>
+                                                        </div><End .menu-col>
+                                                    </div>< End .col-md-8 >
+
+                                                    <div class="col-md-4">
+                                                        <div class="banner banner-overlay">
+                                                            <a href="/category/" class="banner banner-menu">
+                                                                <img src="{% static 'assets/images/demos/demo-13/menu/banner-1.jpg' %}" alt="Banner">
+                                                            </a>
+                                                        </div><End .banner banner-overlay >
+                                                    </div><End .col-md-4>
+                                                </div><End .row>
+                                            </div><End .megamenu -->
+                                       </li>
+                                        {% for item in category %}
+                                        <li><a href="#">{{item.name}}</a></li>
+                                        {% endfor %}
+
+                                    </ul><!-- End .menu-vertical -->
+                                </nav><!-- End .side-nav -->
+                            </div><!-- End .dropdown-menu -->
+                        </div><!-- End .category-dropdown -->
+                    </div><!-- End .col-lg-3 -->
+                    <div class="header-center">
+                        <nav class="main-nav">
+                            <ul class="menu sf-arrows">
+                                <li class="megamenu-container active">
+                                    <a href="#" class="">Home</a>
+                                </li>
+                                <li>
+                                    <a href="/category/" class="">Category</a>
+                                </li>
+                                <li>
+                                    <a href="/cart/" class="">Cart</a>
+                                </li>
+                                <li>
+                                    <a href="/wishlist/" class="">wishlist</a>
+                                </li>
+                                <li>
+                                    <a href="/checkout/" class="">Checkout</a>
+                                </li>
+                                <li>
+                                    <a href="/dashboard/" class="">Dashboard</a>
+                                </li>
+                            </ul><!-- End .menu -->
+                        </nav><!-- End .main-nav -->
+                    </div><!-- End .col-lg-9 -->
+                    <div class="header-right">
+                        <i class="la la-lightbulb-o"></i><p>Clearance Up to 30% Off</span></p>
+                    </div>
+                </div><!-- End .container -->
+            </div><!-- End .header-bottom -->
+        </header><!-- End .header -->
+
+        <main class="main bg-light">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="intro-slider-container d-none">
+                <div class="intro-slider owl-carousel owl-simple owl-nav-inside" data-toggle="owl" data-owl-options='{
+                        "nav": false,
+                        "responsive": {
+                            "992": {
+                                "nav": true
+                            }
+                        }
+                    }'>
+                    <div class="intro-slide" style="background-image: url({% static 'assets/images/demos/demo-13/slider/slide-1.png' %});">
+                        <div class="container intro-content">
+                            <div class="row">
+                                <div class="col-auto offset-lg-3 intro-col">
+                                    <h3 class="intro-subtitle">Trade-In Offer</h3><!-- End .h3 intro-subtitle -->
+                                    <h1 class="intro-title">MacBook Air <br>Latest Model
+                                        <span>
+                                            <sup class="font-weight-light">from</sup>
+                                            <span class="text-primary">$999<sup>,99</sup></span>
+                                        </span>
+                                    </h1><!-- End .intro-title -->
+
+                                    <a href="/category/" class="btn btn-outline-primary-2">
+                                        <span>Shop Now</span>
+                                        <i class="icon-long-arrow-right"></i>
+                                    </a>
+                                </div><!-- End .col-auto offset-lg-3 -->
+                            </div><!-- End .row -->
+                        </div><!-- End .container intro-content -->
+                    </div><!-- End .intro-slide -->
+
+                    <div class="intro-slide" style="background-image: url({% static 'assets/images/demos/demo-13/slider/slide-2.jpg' %});">
+                        <div class="container intro-content">
+                            <div class="row">
+                                <div class="col-auto offset-lg-3 intro-col">
+                                    <h3 class="intro-subtitle">Trevel & Outdoor</h3><!-- End .h3 intro-subtitle -->
+                                    <h1 class="intro-title">Original Outdoor <br>Beanbag
+                                        <span>
+                                            <sup class="font-weight-light line-through">$89,99</sup>
+                                            <span class="text-primary">$29<sup>,99</sup></span>
+                                        </span>
+                                    </h1><!-- End .intro-title -->
+
+                                    <a href="/category/" class="btn btn-outline-primary-2">
+                                        <span>Shop Now</span>
+                                        <i class="icon-long-arrow-right"></i>
+                                    </a>
+                                </div><!-- End .col-auto offset-lg-3 -->
+                            </div><!-- End .row -->
+                        </div><!-- End .container intro-content -->
+                    </div><!-- End .intro-slide -->
+
+                    <div class="intro-slide" style="background-image: url({% static 'assets/images/demos/demo-13/slider/slide-3.jpg' %});">
+                        <div class="container intro-content">
+                            <div class="row">
+                                <div class="col-auto offset-lg-3 intro-col">
+                                    <h3 class="intro-subtitle">Fashion Promotions</h3><!-- End .h3 intro-subtitle -->
+                                    <h1 class="intro-title">Tan Suede <br>Biker Jacket
+                                        <span>
+                                            <sup class="font-weight-light line-through">$240,00</sup>
+                                            <span class="text-primary">$180<sup>,99</sup></span>
+                                        </span>
+                                    </h1><!-- End .intro-title -->
+
+                                    <a href="/category/" class="btn btn-outline-primary-2">
+                                        <span>Shop Now</span>
+                                        <i class="icon-long-arrow-right"></i>
+                                    </a>
+                                </div><!-- End .col-auto offset-lg-3 -->
+                            </div><!-- End .row -->
+                        </div><!-- End .container intro-content -->
+                    </div><!-- End .intro-slide -->
+                </div><!-- End .owl-carousel owl-simple -->
+
+                <span class="slider-loader"></span><!-- End .slider-loader -->
+            </div><!-- End .intro-slider-container -->
+
+            <div class="mb-4"></div><!-- End .mb-2 -->
+
+            <div class="container">
+                <h2 class="title text-center mb-2">Explore Popular Categories</h2><!-- End .title -->
+
+                <div class="cat-blocks-container">
+                    <div class="row">
+                    {% for cat in categoryz %}
+                        <div class="col-6 col-sm-4 col-lg-2">
+                            <a href="/category/{{cat}}/" class="cat-block">
+                                <figure>
+                                    <span>
+                                        <img src="/static/assets/images/demos/demo-13/cats/{{cat.id}}.jpg" alt="Category image">
+                                    </span>
+                                </figure>
+
+                                <h3 class="cat-block-title">{{cat.name}}</h3><!-- End .cat-block-title -->
+                            </a>
+                        </div><!-- End .col-sm-4 col-lg-2 -->
+                    {% endfor %}
+                    </div><!-- End .row -->
+                </div><!-- End .cat-blocks-container -->
+            </div><!-- End .container -->
+
+            <div class="mb-2"></div><!-- End .mb-2 -->
+
+            <div class="container d-none">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="banner banner-overlay">
+                            <a href="#">
+                                <img src="{% static 'assets/images/demos/demo-13/banners/banner-1.jpg' %}" alt="Banner">
+                            </a>
+
+                            <div class="banner-content">
+                                <h4 class="banner-subtitle text-white"><a href="#">Weekend Sale</a></h4><!-- End .banner-subtitle -->
+                                <h3 class="banner-title text-white"><a href="#">Lighting <br>& Accessories <br><span>25% off</span></a></h3><!-- End .banner-title -->
+                                <a href="#" class="banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
+                            </div><!-- End .banner-content -->
+                        </div><!-- End .banner -->
+                    </div><!-- End .col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3 order-lg-last">
+                        <div class="banner banner-overlay">
+                            <a href="#">
+                                <img src="{% static 'assets/images/demos/demo-13/banners/banner-3.jpg' %}" alt="Banner">
+                            </a>
+
+                            <div class="banner-content">
+                                <h4 class="banner-subtitle text-white"><a href="#">Smart Offer</a></h4><!-- End .banner-subtitle -->
+                                <h3 class="banner-title text-white"><a href="#">Anniversary <br>Special <br><span>15% off</span></a></h3><!-- End .banner-title -->
+                                <a href="#" class="banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
+                            </div><!-- End .banner-content -->
+                        </div><!-- End .banner -->
+                    </div><!-- End .col-lg-3 -->
+
+                    <div class="col-lg-6">
+                        <div class="banner banner-overlay">
+                            <a href="#">
+                                <img src="{% static 'assets/images/demos/demo-13/banners/banner-2.jpg' %}" alt="Banner">
+                            </a>
+
+                            <div class="banner-content">
+                                <h4 class="banner-subtitle text-white d-none d-sm-block"><a href="#">Amazing Value</a></h4><!-- End .banner-subtitle -->
+                                <h3 class="banner-title text-white"><a href="#">Clothes Trending <br>Spring Collection 2019 <br><span>from $12,99</span></a></h3><!-- End .banner-title -->
+                                <a href="#" class="banner-link">Discover Now <i class="icon-long-arrow-right"></i></a>
+                            </div><!-- End .banner-content -->
+                        </div><!-- End .banner -->
+                    </div><!-- End .col-lg-6 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+
+            <div class="mb-3 d-none"></div><!-- End .mb-3 -->
+            
+            <div class="bg-light pt-3 pb-1"><!-- hot deals -->
+                <div class="container">
+                    <div class="heading heading-flex heading-border mb-3">
+                        <div class="heading-left">
+                            <h2 class="title">Hot Deals Products</h2><!-- End .title -->
+                        </div><!-- End .heading-left -->
+
+                       <div class="heading-right">
+                            <ul class="nav nav-pills nav-border-anim justify-content-center" role="tablist">
+                            
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="hot-all-link" data-toggle="tab" href="#hot-all-tab" role="tab" aria-controls="hot-all-tab" aria-selected="true">All</a>
+                                </li>
+                                {% for item in category %}
+                                <li class="nav-item">
+                                    <a class="nav-link" id="hot-{{item.name|cut:" "}}-link" data-toggle="tab" href="#hot-{{item.name|slugify}}-tab" role="tab" aria-controls="hot-{{item.name|cut:" "}}-tab" aria-selected="false">{{item.name}}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                       </div><!-- End .heading-right -->
+                    </div><!-- End .heading -->
+
+                    <div class="tab-content tab-content-carousel">
+                        <div class="tab-pane p-0 fade show active" id="hot-all-tab" role="tabpanel" aria-labelledby="hot-all-link">
+                            <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                                data-owl-options='{
+                                    "nav": false, 
+                                    "dots": true,
+                                    "margin": 20,
+                                    "loop": false,
+                                    "responsive": {
+                                        "0": {
+                                            "items":2
+                                        },
+                                        "480": {
+                                            "items":2
+                                        },
+                                        "768": {
+                                            "items":3
+                                        },
+                                        "992": {
+                                            "items":4
+                                        },
+                                        "1280": {
+                                            "items":5,
+                                            "nav": true
+                                        }
+                                    }
+                                }'>
+                                {% for product in products %}
+                                {% if product.image %}
+                                <div class="product">
+                                    <figure class="product-media">
+                                    <!--span class="product-label label-sale">Sale</span-->
+                                        <a href="/product/{{product.name}}/">
+                                            <img src="{% if product.image %} {{product.image.url}} {% else %} {{defaultimage.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" class="product-image">
+                                        </a>
+
+                                        <div class="product-action-vertical">
+                                            <a href="/addwishlist/{{product.name}}/" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                            <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
+                                            <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
+                                        </div><!-- End .product-action-vertical -->
+
+                                        <div class="product-action">
+                                            <a href="/add/{{product.name}}/" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </figure><!-- End .product-media -->
+
+                                    <div class="product-body">
+                                        <div class="product-cat">
+                                            <a href="#">{{product.category}}</a>
+                                        </div><!-- End .product-cat -->
+                                        <h3 class="product-title"><a href="/product/">{{product}}</a></h3><!-- End .product-title -->
+                                        <div class="product-price">
+                                            <span class="new-price">Ksh{{product.sellp}}</span>
+                                            <!--span class="old-price">Was $290.00</span-->
+                                        </div><!-- End .product-price -->
+                                        <div class="ratings-container">
+                                            <div class="ratings">
+                                                <div class="ratings-val" style="width: 100%;"></div><!-- End .ratings-val -->
+                                            </div><!-- End .ratings -->
+                                            <span class="ratings-text">( 2 Reviews )</span>
+                                        </div><!-- End .rating-container -->
+                                    </div><!-- End .product-body -->
+                                </div><!-- End .product -->
+                                {% endif %}
+                                {% endfor %}
+                            </div><!-- End .owl-carousel -->
+                        </div><!-- .End .tab-pane -->
+                        {% for item in category %}
+                        <div class="tab-pane p-0 fade" id="hot-{{item.name}}-tab" role="tabpanel" aria-labelledby="hot-{{item.name}}-link">
+                            <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                                data-owl-options='{
+                                    "nav": false, 
+                                    "dots": true,
+                                    "margin": 20,
+                                    "loop": false,
+                                    "responsive": {
+                                        "0": {
+                                            "items":2
+                                        },
+                                        "480": {
+                                            "items":2
+                                        },
+                                        "768": {
+                                            "items":3
+                                        },
+                                        "992": {
+                                            "items":4
+                                        },
+                                        "1280": {
+                                            "items":5,
+                                            "nav": true
+                                        }
+                                    }
+                                }'>
+                                {% for product in item.product.all %}
+                                {% if product.image %}
+                                <div class="product">
+                                    <figure class="product-media">
+                                        <span class="product-label label-sale">Sale</span>
+                                        <a href="/product/{{product.name}}/">
+                                            <img src="{% if product.image %} {{product.image.url}} {% else %} {{defaultimage.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" class="product-image">
+                                        </a>
+
+                                        <div class="product-action-vertical">
+                                            <a href="/addwishlist/{{product.name}}/" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                            <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
+                                            <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
+                                        </div><!-- End .product-action-vertical -->
+
+                                        <div class="product-action">
+                                            <a href="/add/{{product.name}}/" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                        </div><!-- End .product-action -->
+                                    </figure><!-- End .product-media -->
+
+                                    <div class="product-body">
+                                        <div class="product-cat">
+                                            <a href="#">{{item.name}}</a>
+                                        </div><!-- End .product-cat -->
+                                        <h3 class="product-title"><a href="/product/">{{product}}</a></h3><!-- End .product-title -->
+                                        <div class="product-price">
+                                            <span class="new-price">Ksh{{product.sellp}}</span>
+                                            <!--span class="old-price">Was $310.00</span-->
+                                        </div><!-- End .product-price -->
+                                        <div class="ratings-container">
+                                            <div class="ratings">
+                                                <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                            </div><!-- End .ratings -->
+                                            <span class="ratings-text">( 4 Reviews )</span>
+                                        </div><!-- End .rating-container -->
+
+                                        <div class="product-nav product-nav-dots">
+                                            <a href="#" class="active" style="background: #b58555;"><span class="sr-only">Color name</span></a>
+                                            <a href="#" style="background: #93a6b0;"><span class="sr-only">Color name</span></a>
+                                        </div><!-- End .product-nav -->
+                                    </div><!-- End .product-body -->
+                                </div><!-- End .product -->
+                                {% endif %}
+                                {% endfor %}
+                            </div><!-- End .owl-carousel -->
+                        </div><!-- .End .tab-pane -->
+                        {% endfor %}
+                    </div><!-- End .tab-content -->
+                </div><!-- End .container -->
+            </div><!-- End .bg-light pt-5 pb-5 -->
+
+            <div class="mb-3 d-none"></div><!-- End .mb-3 -->
+
+            <div class="container d-none">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="banner banner-overlay banner-overlay-light">
+                            <a href="#">
+                                <img src="{% static 'assets/images/demos/demo-13/banners/banner-4.jpg' %}" alt="Banner">
+                            </a>
+
+                            <div class="banner-content">
+                                <h4 class="banner-subtitle d-none d-sm-block"><a href="#">Spring Sale is Coming</a></h4><!-- End .banner-subtitle -->
+                                <h3 class="banner-title"><a href="#">All Smart Watches <br>Discount <br><span class="text-primary">15% off</span></a></h3><!-- End .banner-title -->
+                                <a href="#" class="banner-link banner-link-dark">Discover Now <i class="icon-long-arrow-right"></i></a>
+                            </div><!-- End .banner-content -->
+                        </div><!-- End .banner -->
+                    </div><!-- End .col-lg-6 -->
+
+                    <div class="col-lg-6">
+                        <div class="banner banner-overlay">
+                            <a href="#">
+                                <img src="{% static 'assets/images/demos/demo-13/banners/banner-5.png' %}" alt="Banner">
+                            </a>
+
+                            <div class="banner-content">
+                                <h4 class="banner-subtitle text-white  d-none d-sm-block"><a href="#">Amazing Value</a></h4><!-- End .banner-subtitle -->
+                                <h3 class="banner-title text-white"><a href="#">Headphones Trending <br>JBL Harman <br><span>from $59,99</span></a></h3><!-- End .banner-title -->
+                                <a href="#" class="banner-link">Discover Now <i class="icon-long-arrow-right"></i></a>
+                            </div><!-- End .banner-content -->
+                        </div><!-- End .banner -->
+                    </div><!-- End .col-lg-6 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+
+            <div class="mb-1"></div><!-- End .mb-1 -->
+
+            {% for item in category %}
+            <div class="container {{item.name}}">
+                <div class="heading heading-flex heading-border mb-3">
+                    <div class="heading-left">
+                        <h2 class="title">{{item.name|title}}</h2><!-- End .title -->
+                    </div><!-- End .heading-left -->
+
+                   <!--div class="heading-right">
+                        <ul class="nav nav-pills nav-border-anim justify-content-center" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="furn-new-link" data-toggle="tab" href="#furn-new-tab" role="tab" aria-controls="furn-new-tab" aria-selected="true">New</a>
+                            </li>
+                        </ul>
+                   </div--><!-- End .heading-right -->
+                </div><!-- End .heading -->
+
+                <div class="tab-content tab-content-carousel">
+                    <div class="tab-pane p-0 fade show active" id="furn-new-tab" role="tabpanel" aria-labelledby="furn-new-link">
+                        <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "0": {
+                                        "items":2
+                                    },
+                                    "480": {
+                                        "items":2
+                                    },
+                                    "768": {
+                                        "items":3
+                                    },
+                                    "992": {
+                                        "items":4
+                                    },
+                                    "1280": {
+                                        "items":5,
+                                        "nav": true
+                                    }
+                                }
+                            }'>
+                            {% for product in item.product.all %}
+                            {% if product.image %}
+                            <div class="product">
+                                <figure class="product-media">
+                                    <a href="/product/{{product}}/">
+                                        <img src="{% if product.image %} {{product.image.url}} {% else %} {{defaultimage.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" class="product-image">
+                                    </a>
+
+                                    <div class="product-action-vertical">
+                                        <a href="/addwishlist/{{product.name}}/" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                        <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
+                                        <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
+                                    </div><!-- End .product-action-vertical -->
+
+                                    <div class="product-action">
+                                        <a href="/add/{{product.name}}/" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                    </div><!-- End .product-action -->
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <div class="product-cat">
+                                        <a href="#">{{product.category}}</a>
+                                    </div><!-- End .product-cat -->
+                                    <h3 class="product-title"><a href="/product/">{{product.name}}</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        Ksh{{product.sellp}}
+                                    </div><!-- End .product-price -->
+                                    <div class="ratings-container">
+                                        <div class="ratings">
+                                            <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
+                                        </div><!-- End .ratings -->
+                                        <span class="ratings-text">( 0 Reviews )</span>
+                                    </div><!-- End .rating-container -->
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+                            {% endif %}
+                            {% endfor %}
+                        </div><!-- End .owl-carousel -->
+                    </div><!-- .End .tab-pane -->
+                </div><!-- End .tab-content -->
+            </div><!-- End .container -->
+            {% endfor %}
+
+            <div class="mb-3"></div><!-- End .mb-3 -->
+
+            <div class="container">
+                <h2 class="title title-border mb-5">Shop by Brands</h2><!-- End .title -->
+                <div class="owl-carousel mb-5 owl-simple" data-toggle="owl" 
+                    data-owl-options='{
+                        "nav": false, 
+                        "dots": true,
+                        "margin": 30,
+                        "loop": false,
+                        "responsive": {
+                            "0": {
+                                "items":2
+                            },
+                            "420": {
+                                "items":3
+                            },
+                            "600": {
+                                "items":4
+                            },
+                            "900": {
+                                "items":5
+                            },
+                            "1024": {
+                                "items":6
+                            },
+                            "1280": {
+                                "items":6,
+                                "nav": true,
+                                "dots": false
+                            }
+                        }
+                    }'>
+                    <a href="#" class="brand">
+                        <img src="{% static 'assets/images/brands/1.png' %}" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="{% static 'assets/images/brands/2.png' %}" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="{% static 'assets/images/brands/3.png' %}" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="{% static 'assets/images/brands/4.png' %}" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="{% static 'assets/images/brands/5.png' %}" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="{% static 'assets/images/brands/6.png' %}" alt="Brand Name">
+                    </a>
+
+                    <a href="#" class="brand">
+                        <img src="{% static 'assets/images/brands/7.png' %}" alt="Brand Name">
+                    </a>
+                </div><!-- End .owl-carousel -->
+            </div><!-- End .container -->
+
+        </main><!-- End .main -->
+
+        <footer class="footer footer-2">
+            <div class="footer-middle border-0">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="widget widget-about">
+                                <img src="{% static 'assets/images/demos/demo-13/logo-footer.png' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
+                                <p></p>
+                                
+                                <div class="widget-about-info">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-4">
+                                            <span class="widget-about-title">Got Question? Call us 24/7</span>
+                                            <a href="tel:123456789">+ 254 0716551972</a>
+                                        </div><!-- End .col-sm-6 -->
+                                        <div class="col-sm-6 col-md-8">
+                                            <span class="widget-about-title">Payment Method</span>
+                                            <figure class="footer-payments">
+                                                <img src="{% static 'assets/images/payments.png' %}" alt="Payment methods" width="272" height="20">
+                                            </figure><!-- End .footer-payments -->
+                                        </div><!-- End .col-sm-6 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .widget-about-info -->
+                            </div><!-- End .widget about-widget -->
+                        </div><!-- End .col-sm-12 col-lg-3 -->
+
+                        <div class="col-sm-4 col-lg-2">
+                            <div class="widget">
+                                <h4 class="widget-title">Information</h4><!-- End .widget-title -->
+
+                                <ul class="widget-list">
+                                    <li><a href="/about/">About Bingo Mart</a></li>
+                                    <li><a href="#">How to shop on Bingo Mart</a></li>
+                                    <li class="d-none"><a href="faq.html">FAQ</a></li>
+                                    <li><a href="/contact/">Contact us</a></li>
+                                    <li><a href="/login/">Log in</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-4 col-lg-3 -->
+
+                        <div class="col-sm-4 col-lg-2 d-none">
+                            <div class="widget">
+                                <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                                <ul class="widget-list">
+                                    <li><a href="#">Payment Methods</a></li>
+                                    <li><a href="#">Returns</a></li>
+                                    <li><a href="#">Shipping</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-4 col-lg-3 -->
+
+                        <div class="col-sm-4 col-lg-2">
+                            <div class="widget">
+                                <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                                <ul class="widget-list">
+                                    <li><a href="#">Sign In</a></li>
+                                    <li><a href="/cart/">View Cart</a></li>
+                                    <li><a href="#">My Wishlist</a></li>
+                                    <li><a href="#">Track My Order</a></li>
+                                    <li><a href="#">Help</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-64 col-lg-3 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .footer-middle -->
+
+            <div class="footer-bottom">
+                <div class="container">
+                    <p class="footer-copyright">Copyright © 2019 Bingo Mart Store. All Rights Reserved.</p><!-- End .footer-copyright -->
+                    <ul class="footer-menu">
+                        <li><a href="#">Terms Of Use</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul><!-- End .footer-menu -->
+
+                    <div class="social-icons social-icons-color">
+                        <span class="social-label">Social Media</span>
+                        <a href="#" class="social-icon social-facebook" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                        <a href="#" class="social-icon social-twitter" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                        <a href="#" class="social-icon social-instagram" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                        <a href="#" class="social-icon social-youtube" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
+                        <a href="#" class="social-icon social-pinterest" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                    </div><!-- End .soial-icons -->
+                </div><!-- End .container -->
+            </div><!-- End .footer-bottom -->
+        </footer><!-- End .footer -->
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    <div class="mobile-menu-container mobile-menu-light">
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+            
+            <form action="#" method="get" class="mobile-search">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+            </form>
+
+            <ul class="nav nav-pills-mobile nav-border-anim" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="mobile-menu-link" data-toggle="tab" href="#mobile-menu-tab" role="tab" aria-controls="mobile-menu-tab" aria-selected="true">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="mobile-cats-link" data-toggle="tab" href="#mobile-cats-tab" role="tab" aria-controls="mobile-cats-tab" aria-selected="false">Categories</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="mobile-menu-tab" role="tabpanel" aria-labelledby="mobile-menu-link">
+                    <nav class="mobile-nav">
+                        <ul class="mobile-menu">
+                            <li class="active">
+                                <a href="#">Home</a>
+                            </li>
+                            <li>
+                                <a href="/category/" class="">Category</a>
+                            </li>
+                            <li>
+                                <a href="/cart/" class="">Cart</a>
+                            </li>
+                            <li>
+                                <a href="/wishlist/" class="">wishlist</a>
+                            </li>
+                            <li>
+                                <a href="/checkout/" class="">Checkout</a>
+                            </li>
+                            <li>
+                                <a href="/dashboard/" class="">Dashboard</a>
+                            </li>
+                        </ul>
+                    </nav><!-- End .mobile-nav -->
+                </div><!-- .End .tab-pane -->
+                <div class="tab-pane fade" id="mobile-cats-tab" role="tabpanel" aria-labelledby="mobile-cats-link">
+                    <nav class="mobile-cats-nav">
+                        <ul class="mobile-cats-menu">
+                            <li><a class="mobile-cats-lead" href="#">Daily offers</a></li>
+                        {% for name in category %}
+                            <li><a  href="#">{{name|title}}</a></li>
+                        {% endfor %}
+                        </ul><!-- End .mobile-cats-menu -->
+                    </nav><!-- End .mobile-cats-nav -->
+                </div><!-- .End .tab-pane -->
+            </div><!-- End .tab-content -->
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
+    </div><!-- End .mobile-menu-container -->
+
+    <!-- Sign in / Register Modal -->
+    <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="icon-close"></i></span>
+                    </button>
+
+                    <div class="form-box">
+                        <div class="form-tab">
+                            <ul class="nav nav-pills nav-fill nav-border-anim" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin" role="tab" aria-controls="signin" aria-selected="true">Sign In</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Register</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="tab-content-5">
+                                <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
+                                    <form action="#">
+                                        <div class="form-group">
+                                            <label for="singin-email">Username or email address *</label>
+                                            <input type="text" class="form-control" id="singin-email" name="singin-email" required>
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-group">
+                                            <label for="singin-password">Password *</label>
+                                            <input type="password" class="form-control" id="singin-password" name="singin-password" required>
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-footer">
+                                            <button type="submit" class="btn btn-outline-primary-2">
+                                                <span>LOG IN</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </button>
+
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="signin-remember">
+                                                <label class="custom-control-label" for="signin-remember">Remember Me</label>
+                                            </div><!-- End .custom-checkbox -->
+
+                                            <a href="#" class="forgot-link">Forgot Your Password?</a>
+                                        </div><!-- End .form-footer -->
+                                    </form>
+                                    <div class="form-choice">
+                                        <p class="text-center">or sign in with</p>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login btn-g">
+                                                    <i class="icon-google"></i>
+                                                    Login With Google
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login btn-f">
+                                                    <i class="icon-facebook-f"></i>
+                                                    Login With Facebook
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                        </div><!-- End .row -->
+                                    </div><!-- End .form-choice -->
+                                </div><!-- .End .tab-pane -->
+                                <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                    <form action="#">
+                                        <div class="form-group">
+                                            <label for="register-email">Your email address *</label>
+                                            <input type="email" class="form-control" id="register-email" name="register-email" required>
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-group">
+                                            <label for="register-password">Password *</label>
+                                            <input type="password" class="form-control" id="register-password" name="register-password" required>
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-footer">
+                                            <button type="submit" class="btn btn-outline-primary-2">
+                                                <span>SIGN UP</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </button>
+
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="register-policy" required>
+                                                <label class="custom-control-label" for="register-policy">I agree to the <a href="#">privacy policy</a> *</label>
+                                            </div><!-- End .custom-checkbox -->
+                                        </div><!-- End .form-footer -->
+                                    </form>
+                                    <div class="form-choice">
+                                        <p class="text-center">or sign in with</p>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login btn-g">
+                                                    <i class="icon-google"></i>
+                                                    Login With Google
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login  btn-f">
+                                                    <i class="icon-facebook-f"></i>
+                                                    Login With Facebook
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                        </div><!-- End .row -->
+                                    </div><!-- End .form-choice -->
+                                </div><!-- .End .tab-pane -->
+                            </div><!-- End .tab-content -->
+                        </div><!-- End .form-tab -->
+                    </div><!-- End .form-box -->
+                </div><!-- End .modal-body -->
+            </div><!-- End .modal-content -->
+        </div><!-- End .modal-dialog -->
+    </div><!-- End .modal -->
+
+    <!-- Plugins JS File -->
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.hoverIntent.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/superfish.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap-input-spinner.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.plugin.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.countdown.min.js' %}"></script>
+    
+    <!-- Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/demos/demo-13.js' %}"></script>
+</body>
+
+
+<!-- Bingo Mart//home/  22 Nov 2019 09:59:31 GMT -->
+</html>
