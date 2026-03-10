@@ -39,7 +39,7 @@
 <body>
     <div class="page-wrapper">
         <header class="header header-10 header-intro-clearance">
-            <div class="header-top">
+            <div class="header-top d-none">
                 <div class="container">
                     <div class="header-left">
                         <a href="tel:#"><i class="icon-phone"></i>Call: + 254 0716551972</a>
@@ -101,7 +101,7 @@
                                 <div class="header-search-wrapper search-wrapper-wide">
                                     <div class="select-custom">
                                         <select id="cat" name="cat">
-                                        {% for item in category %}
+                                        {% for item in categories %}
                                             <option value="">{{item.name}}</option>
                                         {% endfor %}
                                         </select>
@@ -150,57 +150,43 @@
                             <div class="dropdown cart-dropdown">
                                 <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                     <i class="icon-shopping-cart"></i>
-                                    <span class="cart-count">2</span>
+                                    <span class="cart-count">{{ cart.product.count|default:0 }}</span>
                                     <span class="cart-txt">Cart</span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <div class="dropdown-cart-products">
-                                        <div class="product">
-                                            <div class="product-cart-details">
-                                                <h4 class="product-title">
-                                                    <a href="/product/">Beige knitted elastic runner shoes</a>
-                                                </h4>
+                                {% if user.is_authenticated and cart %}
+                                  {% for item in cart.product.all %}
+                                    <div class="product">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title">
+                                                <a href="/product/{{item.name}}/">{{item.name}}</a>
+                                            </h4>
 
-                                                <span class="cart-product-info">
-                                                    <span class="cart-product-qty">1</span>
-                                                    x $84.00
-                                                </span>
-                                            </div><!-- End .product-cart-details -->
+                                            <span class="cart-product-info">
+                                                <span class="cart-product-qty">{{item.order_amount}}</span>
+                                                x Ksh {{item.sellp}}
+                                            </span>
+                                        </div><!-- End .product-cart-details -->
 
-                                            <figure class="product-image-container">
-                                                <a href="/product/" class="product-image">
-                                                    <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">
-                                                </a>
-                                            </figure>
-                                            <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                        </div><!-- End .product -->
-
-                                        <div class="product">
-                                            <div class="product-cart-details">
-                                                <h4 class="product-title">
-                                                    <a href="/product/">Blue utility pinafore denim dress</a>
-                                                </h4>
-
-                                                <span class="cart-product-info">
-                                                    <span class="cart-product-qty">1</span>
-                                                    x $76.00
-                                                </span>
-                                            </div><!-- End .product-cart-details -->
-
-                                            <figure class="product-image-container">
-                                                <a href="/product/" class="product-image">
-                                                    <img src="{% static 'assets/images/products/cart/product-2.jpg' %}" alt="product">
-                                                </a>
-                                            </figure>
-                                            <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                        </div><!-- End .product -->
+                                        <figure class="product-image-container">
+                                            <a href="/product/{{item.name}}/" class="product-image">
+                                                <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">
+                                            </a>
+                                        </figure>
+                                        <a href="/remove/{{item.name}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                    </div><!-- End .product -->
+                                  {% endfor %}
+                                {% else %}
+                                    <p style="padding: 10px; text-align: center; color: #999;">Your cart is empty</p>
+                                {% endif %}
                                     </div><!-- End .cart-product -->
 
                                     <div class="dropdown-cart-total">
                                         <span>Total</span>
 
-                                        <span class="cart-total-price">$160.00</span>
+                                        <span class="cart-total-price"></span>
                                     </div><!-- End .dropdown-cart-total -->
 
                                     <div class="dropdown-cart-action">
@@ -288,8 +274,8 @@
                                                 </div><End .row>
                                             </div><End .megamenu -->
                                        </li>
-                                        {% for item in category %}
-                                        <li><a href="#">{{item.name}}</a></li>
+                                        {% for item in categories %}
+                                        <li class='category-link'><a href="#">{{item.name}}</a></li>
                                         {% endfor %}
 
                                     </ul><!-- End .menu-vertical -->
@@ -419,7 +405,7 @@
 
                 <div class="cat-blocks-container">
                     <div class="row">
-                    {% for cat in categoryz %}
+                    {% for cat in categories_featured %}
                         <div class="col-6 col-sm-4 col-lg-2">
                             <a href="/category/{{cat}}/" class="cat-block">
                                 <figure>
@@ -499,9 +485,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" id="hot-all-link" data-toggle="tab" href="#hot-all-tab" role="tab" aria-controls="hot-all-tab" aria-selected="true">All</a>
                                 </li>
-                                {% for item in category %}
+                                {% for cat_item in categories %}
                                 <li class="nav-item">
-                                    <a class="nav-link" id="hot-{{item.name|cut:" "}}-link" data-toggle="tab" href="#hot-{{item.name|slugify}}-tab" role="tab" aria-controls="hot-{{item.name|cut:" "}}-tab" aria-selected="false">{{item.name}}</a>
+                                    <a class="nav-link" id="hot-{{cat_item.name|cut:" "}}-link" data-toggle="tab" href="#hot-{{cat_item.name|slugify}}-tab" role="tab" aria-controls="hot-{{cat_item.name|cut:" "}}-tab" aria-selected="false">{{cat_item.name}}</a>
                                 </li>
                                 {% endfor %}
                             </ul>
@@ -535,8 +521,8 @@
                                         }
                                     }
                                 }'>
-                                {% for product in products %}
-                                {% if product.image %}
+                                {% for product in active_products %}
+                                {% if product.image and product.active %}
                                 <div class="product">
                                     <figure class="product-media">
                                     <!--span class="product-label label-sale">Sale</span-->
@@ -546,12 +532,15 @@
 
                                         <div class="product-action-vertical">
                                             <a href="/addwishlist/{{product.name}}/" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                            <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
-                                            <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
+                                            
+                                            
                                         </div><!-- End .product-action-vertical -->
 
                                         <div class="product-action">
-                                            <a href="/add/{{product.name}}/" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn-product btn-cart" data-toggle="modal" data-target="#exampleModalCenter"data-name="{{product.name}}" data-price="{{product.sellp}}" data-image="{{product.image.url}}" title="Add to cart">
+                                                <span>add to cart</span>
+                                            </button>
                                         </div><!-- End .product-action -->
                                     </figure><!-- End .product-media -->
 
@@ -564,20 +553,14 @@
                                             <span class="new-price">Ksh{{product.sellp}}</span>
                                             <!--span class="old-price">Was $290.00</span-->
                                         </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 100%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 2 Reviews )</span>
-                                        </div><!-- End .rating-container -->
                                     </div><!-- End .product-body -->
                                 </div><!-- End .product -->
                                 {% endif %}
                                 {% endfor %}
                             </div><!-- End .owl-carousel -->
                         </div><!-- .End .tab-pane -->
-                        {% for item in category %}
-                        <div class="tab-pane p-0 fade" id="hot-{{item.name}}-tab" role="tabpanel" aria-labelledby="hot-{{item.name}}-link">
+                        {% for item in categories %}
+                        <div class="tab-pane p-0 fade" id="hot-{{item.name|slugify}}-tab" role="tabpanel" aria-labelledby="hot-{{item.name|cut:" "}}-link">
                             <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
                                 data-owl-options='{
                                     "nav": false, 
@@ -604,7 +587,7 @@
                                     }
                                 }'>
                                 {% for product in item.product.all %}
-                                {% if product.image %}
+                                {% if product.image and product.active %}
                                 <div class="product">
                                     <figure class="product-media">
                                         <span class="product-label label-sale">Sale</span>
@@ -614,12 +597,15 @@
 
                                         <div class="product-action-vertical">
                                             <a href="/addwishlist/{{product.name}}/" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                            <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
-                                            <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
+                                            
+                                            
                                         </div><!-- End .product-action-vertical -->
 
                                         <div class="product-action">
-                                            <a href="/add/{{product.name}}/" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn-product btn-cart" data-toggle="modal" data-target="#exampleModalCenter"data-name="{{product.name}}" data-price="{{product.sellp}}" data-image="{{product.image.url}}" title="Add to cart">
+                                                <span>add to cart</span>
+                                            </button>
                                         </div><!-- End .product-action -->
                                     </figure><!-- End .product-media -->
 
@@ -632,14 +618,8 @@
                                             <span class="new-price">Ksh{{product.sellp}}</span>
                                             <!--span class="old-price">Was $310.00</span-->
                                         </div><!-- End .product-price -->
-                                        <div class="ratings-container">
-                                            <div class="ratings">
-                                                <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                                            </div><!-- End .ratings -->
-                                            <span class="ratings-text">( 4 Reviews )</span>
-                                        </div><!-- End .rating-container -->
 
-                                        <div class="product-nav product-nav-dots">
+                                        <div class="product-nav product-nav-dots d-none">
                                             <a href="#" class="active" style="background: #b58555;"><span class="sr-only">Color name</span></a>
                                             <a href="#" style="background: #93a6b0;"><span class="sr-only">Color name</span></a>
                                         </div><!-- End .product-nav -->
@@ -690,8 +670,8 @@
 
             <div class="mb-1"></div><!-- End .mb-1 -->
 
-            {% for item in category %}
-            <div class="container {{item.name}}">
+            {% for item in categories %}
+            <div class="container {{item.name|slugify}}">
                 <div class="heading heading-flex heading-border mb-3">
                     <div class="heading-left">
                         <h2 class="title">{{item.name|title}}</h2><!-- End .title -->
@@ -734,21 +714,24 @@
                                 }
                             }'>
                             {% for product in item.product.all %}
-                            {% if product.image %}
+                            {% if product.image and product.active %}
                             <div class="product">
                                 <figure class="product-media">
                                     <a href="/product/{{product}}/">
-                                        <img src="{% if product.image %} {{product.image.url}} {% else %} {{defaultimage.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" class="product-image">
+                                        <img src="{% if product.image %} {{product.image.url}} {% else %} {{default_image.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" class="product-image">
                                     </a>
 
                                     <div class="product-action-vertical">
+                                     
                                         <a href="/addwishlist/{{product.name}}/" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                        <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
-                                        <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
                                     </div><!-- End .product-action-vertical -->
 
                                     <div class="product-action">
-                                        <a href="/add/{{product.name}}/" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn-product btn-cart" data-toggle="modal" data-target="#exampleModalCenter"data-name="{{product.name}}" data-price="{{product.sellp}}" data-image="{{product.image.url}}" title="Add to cart">
+                                            <span>add to cart</span>
+                                        </button>
+                                        <!--a href="/add/{{product.name}}/" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a-->
                                     </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
 
@@ -760,12 +743,6 @@
                                     <div class="product-price">
                                         Ksh{{product.sellp}}
                                     </div><!-- End .product-price -->
-                                    <div class="ratings-container">
-                                        <div class="ratings">
-                                            <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
-                                        </div><!-- End .ratings -->
-                                        <span class="ratings-text">( 0 Reviews )</span>
-                                    </div><!-- End .rating-container -->
                                 </div><!-- End .product-body -->
                             </div><!-- End .product -->
                             {% endif %}
@@ -778,7 +755,7 @@
 
             <div class="mb-3"></div><!-- End .mb-3 -->
 
-            <div class="container">
+            <div class="container d-none">
                 <h2 class="title title-border mb-5">Shop by Brands</h2><!-- End .title -->
                 <div class="owl-carousel mb-5 owl-simple" data-toggle="owl" 
                     data-owl-options='{
@@ -856,7 +833,7 @@
                                             <span class="widget-about-title">Got Question? Call us 24/7</span>
                                             <a href="tel:123456789">+ 254 0716551972</a>
                                         </div><!-- End .col-sm-6 -->
-                                        <div class="col-sm-6 col-md-8">
+                                        <div class="col-sm-6 col-md-8 d-none">
                                             <span class="widget-about-title">Payment Method</span>
                                             <figure class="footer-payments">
                                                 <img src="{% static 'assets/images/payments.png' %}" alt="Payment methods" width="272" height="20">
@@ -867,7 +844,7 @@
                             </div><!-- End .widget about-widget -->
                         </div><!-- End .col-sm-12 col-lg-3 -->
 
-                        <div class="col-sm-4 col-lg-2">
+                        <div class="col-sm-4 col-lg-2 d-none">
                             <div class="widget">
                                 <h4 class="widget-title">Information</h4><!-- End .widget-title -->
 
@@ -893,7 +870,7 @@
                             </div><!-- End .widget -->
                         </div><!-- End .col-sm-4 col-lg-3 -->
 
-                        <div class="col-sm-4 col-lg-2">
+                        <div class="col-sm-4 col-lg-2 d-none">
                             <div class="widget">
                                 <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
 
@@ -911,7 +888,7 @@
             </div><!-- End .footer-middle -->
 
             <div class="footer-bottom">
-                <div class="container">
+                <div class="container d-none">
                     <p class="footer-copyright">Copyright © 2019 Bingo Mart Store. All Rights Reserved.</p><!-- End .footer-copyright -->
                     <ul class="footer-menu">
                         <li><a href="#">Terms Of Use</a></li>
@@ -983,8 +960,8 @@
                     <nav class="mobile-cats-nav">
                         <ul class="mobile-cats-menu">
                             <li><a class="mobile-cats-lead" href="#">Daily offers</a></li>
-                        {% for name in category %}
-                            <li><a  href="#">{{name|title}}</a></li>
+                        {% for name in categories %}
+                            <li><a  href="#">{{name.name|title}}</a></li>
                         {% endfor %}
                         </ul><!-- End .mobile-cats-menu -->
                     </nav><!-- End .mobile-cats-nav -->
@@ -1114,6 +1091,36 @@
         </div><!-- End .modal-dialog -->
     </div><!-- End .modal -->
 
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action='' method='GET'>
+            {% csrf_token %}
+            <div style='background-image : url("")'>
+            </div>
+            <div class='p-5'>
+                {{cartform.as_p}}
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-secondary">Add to cart</button>
+        </div>
+        </div>
+        </form>
+    </div>
+    </div>
+
     <!-- Plugins JS File -->
     <script src="{% static 'assets/js/jquery.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
@@ -1125,6 +1132,19 @@
     <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
     <script src="{% static 'assets/js/jquery.plugin.min.js' %}"></script>
     <script src="{% static 'assets/js/jquery.countdown.min.js' %}"></script>
+    <script>$('#exampleModalCenter').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var name = button.data('name');
+        var price = button.data('price');
+        var image = button.data('image');
+
+        var modal = $(this);
+        modal.find('form').attr('action', '/add/'+name+'/');
+        modal.find('.modal-title').text(name);
+        modal.find('.modal-body img').attr('src', image);
+        modal.find('.modal-body .price').text('Ksh ' + price);
+        });
+    </script>
     
     <!-- Main JS File -->
     <script src="{% static 'assets/js/main.js' %}"></script>

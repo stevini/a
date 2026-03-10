@@ -35,7 +35,7 @@
 <body>
     <div class="page-wrapper">
         <header class="header">
-            <div class="header-top">
+            <div class="header-top d-none">
                 <div class="container">
                     <div class="header-left">
                         <div class="header-dropdown">
@@ -123,29 +123,7 @@
                                 </div><!-- End .header-search-wrapper -->
                             </form>
                         </div><!-- End .header-search -->
-                        <div class="dropdown compare-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
-                                <i class="icon-random"></i>
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <ul class="compare-products">
-                                    <li class="compare-product">
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                        <h4 class="compare-product-title"><a href="/product/">Blue Night Dress</a></h4>
-                                    </li>
-                                    <li class="compare-product">
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                        <h4 class="compare-product-title"><a href="/product/">White Long Skirt</a></h4>
-                                    </li>
-                                </ul>
-
-                                <div class="compare-actions">
-                                    <a href="#" class="action-link">Clear All</a>
-                                    <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i class="icon-long-arrow-right"></i></a>
-                                </div>
-                            </div><!-- End .dropdown-menu -->
-                        </div><!-- End .compare-dropdown -->
+                        
 
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
@@ -155,11 +133,11 @@
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div class="dropdown-cart-products">
-                                {% for item in cart%}
+                                {% for item in cart.product.all %}
                                     <div class="product">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
-                                                <a href="/product/">{{item.name}}</a>
+                                                <a href="/product/{{item.name}}/">{{item.name}}</a>
                                             </h4>
 
                                             <span class="cart-product-info">
@@ -169,11 +147,11 @@
                                         </div><!-- End .product-cart-details -->
 
                                         <figure class="product-image-container">
-                                            <a href="/product/" class="product-image">
+                                            <a href="/product/{{item.name}}" class="product-image">
                                                 <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">
                                             </a>
                                         </figure>
-                                        <a href="remove/{{item.name}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        <a href="/remove/{{item.name}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
                                     </div><!-- End .product -->
                                 {% endfor %}
                                 </div><!-- End .cart-product -->
@@ -181,7 +159,7 @@
                                 <div class="dropdown-cart-total">
                                     <span>Total</span>
 
-                                    <span class="cart-total-price">$160.00</span>
+                                    <span class="cart-total-price">Ksh {{cart.get_total}} </span>
                                 </div><!-- End .dropdown-cart-total -->
 
                                 <div class="dropdown-cart-action">
@@ -216,19 +194,19 @@
                 	<div class="row d-none">
                             <div class="products mb-3 p-3 bg-light">
                                 <div class="row justify-content-center">
-                                {% for item in product %}
+                                {% for item in products %}
                                     <div class="col-6 col-md-4 col-lg-4">
                                         <div class="product product-7 text-center">
                                             <figure class="product-media">
                                                 <span class="product-label label-new">New</span>
                                                 <a href="/product/{{item}}/">
-                                                    <img src="{% if item.image %} {{item.image.url}} {% else %} {{defaultimage.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{item.name}} image" class="product-image">
+                                                    <img src="{% if item.image %} {{item.image.url}} {% else %} {{default_image.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{item.name}} image" class="product-image">
                                                 </a>
 
                                                 <div class="product-action-vertical">
                                                     <a href="/addwishlist/{{item.name}}/" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                                    <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
-                                                    <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
+                                                    
+                                                    
                                                 </div><!-- End .product-action-vertical -->
 
                                                 <div class="product-action">
@@ -240,11 +218,11 @@
                                                 <div class="product-cat">
                                                     <a href="#">{{cat}}</a>
                                                 </div><!-- End .product-cat -->
-                                                <h3 class="product-title"><a href="/product/">{{item.name}}</a></h3><!-- End .product-title -->
+                                                <h3 class="product-title"><a href="/product/{{item.name}}/">{{item.name}}</a></h3><!-- End .product-title -->
                                                 <div class="product-price">
                                                     Ksh{{item.sellp}}
                                                 </div><!-- End .product-price -->
-                                                <div class="ratings-container">
+                                                <div class="ratings-container d-none">
                                                     <div class="ratings">
                                                         <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
                                                     </div><!-- End .ratings -->
@@ -298,7 +276,7 @@
 										<div class="widget-body">
 											<div class="filter-items filter-items-count">
                                             
-                                            {% for item in neatCategory %}
+                                            {% for item in category_products %}
 												<div class="filter-item">
 													<div class="">
 														<a href="/category/{{item.name}}/"><p class="" for="cat-{{item.id}}">{{item.name}}</p></a>
@@ -482,7 +460,7 @@
             </div><!-- End .page-content -->
         </main><!-- End .main -->
 
-        <footer class="footer">
+        <footer class="footer d-none">
         	<div class="footer-middle">
 	            <div class="container">
 	            	<div class="row">

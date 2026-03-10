@@ -32,7 +32,7 @@
 <body>
     <div class="page-wrapper">
         <header class="header">
-            <div class="header-top">
+            <div class="header-top d-none">
                 <div class="container">
                     <div class="header-left">
                         <div class="header-dropdown">
@@ -120,29 +120,7 @@
                                 </div><!-- End .header-search-wrapper -->
                             </form>
                         </div><!-- End .header-search -->
-                        <div class="dropdown compare-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
-                                <i class="icon-random"></i>
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <ul class="compare-products">
-                                    <li class="compare-product">
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                        <h4 class="compare-product-title"><a href="/product/">Blue Night Dress</a></h4>
-                                    </li>
-                                    <li class="compare-product">
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                        <h4 class="compare-product-title"><a href="/product/">White Long Skirt</a></h4>
-                                    </li>
-                                </ul>
-
-                                <div class="compare-actions">
-                                    <a href="#" class="action-link">Clear All</a>
-                                    <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i class="icon-long-arrow-right"></i></a>
-                                </div>
-                            </div><!-- End .dropdown-menu -->
-                        </div><!-- End .compare-dropdown -->
+                        
 
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
@@ -152,11 +130,11 @@
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div class="dropdown-cart-products">
-                                {% for item in cart%}
+                                {% for item in products %}
                                     <div class="product">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
-                                                <a href="/product/">{{item.name}}</a>
+                                                <a href="/product/{{item.name}}/">{{item.name}}</a>
                                             </h4>
 
                                             <span class="cart-product-info">
@@ -166,11 +144,11 @@
                                         </div><!-- End .product-cart-details -->
 
                                         <figure class="product-image-container">
-                                            <a href="/product/" class="product-image">
+                                            <a href="/product/{{item.name}}/" class="product-image">
                                                 <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">
                                             </a>
                                         </figure>
-                                        <a href="remove/{{item.name}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        <a href="/remove/{{item.name}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
                                     </div><!-- End .product -->
                                 {% endfor %}
                                 </div><!-- End .cart-product -->
@@ -178,7 +156,7 @@
                                 <div class="dropdown-cart-total">
                                     <span>Total</span>
 
-                                    <span class="cart-total-price">$160.00</span>
+                                    <span class="cart-total-price">Ksh {{cart.get_total}} </span>
                                 </div><!-- End .dropdown-cart-total -->
 
                                 <div class="dropdown-cart-action">
@@ -233,7 +211,7 @@
 									</thead>
 
 									<tbody>
-                                    {% for item in product %}
+                                    {% for item in products %}
 										<tr>
 											<td class="product-col">
 												<div class="product">
@@ -249,32 +227,38 @@
 												</div><!-- End .product -->
 											</td>
 											<td class="price-col">{{item.sellp}}</td>
+                                            <form>
+                                            {% csrf_token %}
 											<td class="quantity-col">
                                                 <div class="cart-product-quantity">
-                                                    <input type="number" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                                                    {{global_add_form.order_amount}}
+                                                    {{item.order_amount}}
+                                                    <!--input type="number" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required-->
                                                 </div><!-- End .cart-product-quantity -->
                                             </td>
 											<td class="total-col">{{item.get_total}}</td>
-											<td class="remove-col"><a href="/remove/{{item.name}}/"><button class="btn-remove"><i class="icon-close"></i></button></a></td>
+											<td class="remove-col"><a class="btn-remove" href="/remove/{{item.name}}/"><i class="icon-close"></i></a></td>
 										</tr>
                                     {% endfor %}
 									</tbody>
 								</table><!-- End .table table-wishlist -->
 
 	                			<div class="cart-bottom">
-			            			<div class="cart-discount">
+			            			<!--div class="cart-discount">
 			            				<form action="#">
 			            					<div class="input-group">
 				        						<input type="text" class="form-control" required placeholder="coupon code">
 				        						<div class="input-group-append">
 													<button class="btn btn-outline-primary-2" type="submit"><i class="icon-long-arrow-right"></i></button>
-												</div><!-- .End .input-group-append -->
-			        						</div><!-- End .input-group -->
+												</div>
+			        						</div>
 			            				</form>
-			            			</div><!-- End .cart-discount -->
+			            			</div--><!-- End .cart-discount -->
 
-			            			<a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i class="icon-refresh"></i></a>
+			            			<!--a href="#" class="btn btn-outline-dark-2"><span>UPDATE CART</span><i class="icon-refresh"></i></a-->
+                                    <button type="submit" class="btn btn-outline-dark-2 d-none"><span>UPDATE CART</span><i class="icon-refresh"></i></button>
 		            			</div><!-- End .cart-bottom -->
+                                </form>
 	                		</div><!-- End .col-lg-9 -->
 	                		<aside class="col-lg-3">
 	                			<div class="summary summary-cart">
@@ -284,7 +268,7 @@
 	                					<tbody>
 	                						<tr class="summary-subtotal">
 	                							<td>Subtotal:</td>
-	                							<td>$160.00</td>
+	                							<td>{{cart.subtotals}}</td>
 	                						</tr><!-- End .summary-subtotal -->
 	                						<tr class="summary-shipping">
 	                							<td>Shipping:</td>
@@ -298,7 +282,7 @@
 														<label class="custom-control-label" for="free-shipping">Free Shipping</label>
 													</div><!-- End .custom-control -->
 	                							</td>
-	                							<td>$0.00</td>
+	                							<td>{{cart.subtotals}}</td>
 	                						</tr><!-- End .summary-shipping-row -->
 
 	                						<tr class="summary-shipping-row">
@@ -308,7 +292,7 @@
 														<label class="custom-control-label" for="standart-shipping">Standard:</label>
 													</div><!-- End .custom-control -->
 	                							</td>
-	                							<td>$10.00</td>
+	                							<td>10.00</td>
 	                						</tr><!-- End .summary-shipping-row -->
 
 	                						<tr class="summary-shipping-row">
@@ -318,17 +302,17 @@
 														<label class="custom-control-label" for="express-shipping">Express:</label>
 													</div><!-- End .custom-control -->
 	                							</td>
-	                							<td>$20.00</td>
+	                							<td>20.00</td>
 	                						</tr><!-- End .summary-shipping-row -->
 
-	                						<tr class="summary-shipping-estimate">
+	                						<!--tr class="summary-shipping-estimate">
 	                							<td>Estimate for Your Country<br> <a href="/dashboard/">Change address</a></td>
 	                							<td>&nbsp;</td>
 	                						</tr><!-- End .summary-shipping-estimate -->
 
 	                						<tr class="summary-total">
 	                							<td>Total:</td>
-	                							<td>$160.00</td>
+	                							<td>Ksh {{subtotals}} </td>
 	                						</tr><!-- End .summary-total -->
 	                					</tbody>
 	                				</table><!-- End .table table-summary -->
@@ -344,7 +328,7 @@
             </div><!-- End .page-content -->
         </main><!-- End .main -->
 
-        <footer class="footer">
+        <footer class="footer d-none">
         	<div class="footer-middle">
 	            <div class="container">
 	            	<div class="row">

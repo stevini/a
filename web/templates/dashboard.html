@@ -32,7 +32,7 @@
 <body>
     <div class="page-wrapper">
         <header class="header">
-            <div class="header-top">
+            <div class="header-top d-none">
                 <div class="container">
                     <div class="header-left">
                         <div class="header-dropdown">
@@ -120,29 +120,7 @@
                                 </div><!-- End .header-search-wrapper -->
                             </form>
                         </div><!-- End .header-search -->
-                        <div class="dropdown compare-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
-                                <i class="icon-random"></i>
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <ul class="compare-products">
-                                    <li class="compare-product">
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                        <h4 class="compare-product-title"><a href="/product/">Blue Night Dress</a></h4>
-                                    </li>
-                                    <li class="compare-product">
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                        <h4 class="compare-product-title"><a href="/product/">White Long Skirt</a></h4>
-                                    </li>
-                                </ul>
-
-                                <div class="compare-actions">
-                                    <a href="#" class="action-link">Clear All</a>
-                                    <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i class="icon-long-arrow-right"></i></a>
-                                </div>
-                            </div><!-- End .dropdown-menu -->
-                        </div><!-- End .compare-dropdown -->
+                        
 
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
@@ -152,11 +130,11 @@
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div class="dropdown-cart-products">
-                                {% for item in cart%}
+                                {% for item in cart.product.all %}
                                     <div class="product">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
-                                                <a href="/product/">{{item.name}}</a>
+                                                <a href="/product/{{item.name}}/">{{item.name}}</a>
                                             </h4>
 
                                             <span class="cart-product-info">
@@ -166,11 +144,11 @@
                                         </div><!-- End .product-cart-details -->
 
                                         <figure class="product-image-container">
-                                            <a href="/product/" class="product-image">
+                                            <a href="/product/{{item.name}}" class="product-image">
                                                 <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">
                                             </a>
                                         </figure>
-                                        <a href="remove/{{item.name}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        <a href="/remove/{{item.name}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
                                     </div><!-- End .product -->
                                 {% endfor %}
                                 </div><!-- End .cart-product -->
@@ -178,7 +156,7 @@
                                 <div class="dropdown-cart-total">
                                     <span>Total</span>
 
-                                    <span class="cart-total-price">$160.00</span>
+                                    <span class="cart-total-price">Ksh {{cart.get_total}} </span>
                                 </div><!-- End .dropdown-cart-total -->
 
                                 <div class="dropdown-cart-action">
@@ -220,7 +198,7 @@
 								    <li class="nav-item">
 								        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
 								    </li>
-								    <li class="nav-item">
+								    <li class="nav-item d-none">
 								        <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads" aria-selected="false">Downloads</a>
 								    </li>
 								    <li class="nav-item">
@@ -236,6 +214,16 @@
 	                		</aside><!-- End .col-lg-3 -->
 
 	                		<div class="col-md-8 col-lg-9">
+	                			{% if messages %}
+	                				{% for message in messages %}
+	                					<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+	                						{{ message }}
+	                						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	                							<span aria-hidden="true">&times;</span>
+	                						</button>
+	                					</div>
+	                				{% endfor %}
+	                			{% endif %}
 	                			<div class="tab-content">
 								    <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
 								    	<p>Hello <span class="font-weight-normal text-dark">{{request.user}}</span> (not <span class="font-weight-normal text-dark">{{request.user}}</span>? <a href="/logout/">Log out</a>) 
@@ -244,11 +232,112 @@
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
-								    	<p>No order has been made yet.</p>
-								    	<a href="/category/" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
+								    	{% if orders %}
+								    		{% for order in orders %}
+								    			<div class="card card-dashboard mb-4">
+								    				<div class="card-header">
+								    					<h5>Order #{{ order.order_number }}</h5>
+								    				</div>
+								    				<div class="card-body">
+								    					<div class="row">
+								    						<div class="col-sm-6">
+								    							<p><strong>Order Date:</strong> {{ order.order_date|date:"d M Y, H:i" }}</p>
+								    							<p><strong>Status:</strong> 
+								    								{% if order.status == 'pending' %}
+								    									<span class="badge badge-warning">Pending</span>
+								    								{% elif order.status == 'processing' %}
+								    									<span class="badge badge-info">Processing</span>
+								    								{% elif order.status == 'shipped' %}
+								    									<span class="badge badge-primary">Shipped</span>
+								    								{% elif order.status == 'delivered' %}
+								    									<span class="badge badge-success">Delivered</span>
+								    								{% elif order.status == 'cancelled' %}
+								    									<span class="badge badge-danger">Cancelled</span>
+								    								{% endif %}
+								    							</p>
+								    						</div>
+								    						<div class="col-sm-6">
+								    							<p><strong>Payment Status:</strong> 
+								    								{% if order.payment_status == 'pending' %}
+								    									<span class="badge badge-warning">Pending</span>
+								    								{% elif order.payment_status == 'completed' %}
+								    									<span class="badge badge-success">Completed</span>
+								    								{% elif order.payment_status == 'failed' %}
+								    									<span class="badge badge-danger">Failed</span>
+								    								{% elif order.payment_status == 'refunded' %}
+								    									<span class="badge badge-secondary">Refunded</span>
+								    								{% endif %}
+								    							</p>
+								    							<p><strong>Total Amount:</strong> Ksh {{ order.total_amount }}</p>
+								    						</div>
+								    					</div>
+
+								    					<hr>
+								    					<h6 class="mb-3">Order Items:</h6>
+								    					<table class="table table-sm table-bordered">
+								    						<thead>
+								    							<tr>
+								    								<th>Product</th>
+								    								<th>Quantity</th>
+								    								<th>Unit Price</th>
+								    								<th>Total</th>
+								    							</tr>
+								    						</thead>
+								    						<tbody>
+								    							{% for product in order.product.all %}
+								    							<tr>
+								    								<td>{{ product.name }}</td>
+								    								<td>{{ product.order_amount }}</td>
+								    								<td>Ksh {{ product.sellp }}</td>
+								    								<td>Ksh {{ product.get_total }}</td>
+								    							</tr>
+								    							{% endfor %}
+								    						</tbody>
+								    					</table>
+
+								    					<div class="row justify-content-end">
+								    						<div class="col-sm-6">
+								    							<div class="summary">
+								    								<table>
+								    									<tr>
+								    										<td><strong>Subtotal:</strong></td>
+								    										<td>Ksh {{ order.subtotals }}</td>
+								    									</tr>
+								    									<tr class="summary-total">
+								    										<td><strong>Total:</strong></td>
+								    										<td>Ksh {{ order.total_amount }}</td>
+								    									</tr>
+								    								</table>
+								    							</div>
+								    						</div>
+								    					</div>
+
+								    					{% if order.shipping_address %}
+								    					<hr>
+								    					<div class="row">
+								    						<div class="col-sm-6">
+								    							<h6>Shipping Address:</h6>
+								    							<p>{{ order.shipping_address }}</p>
+								    						</div>
+								    						<div class="col-sm-6">
+								    							{% if order.phone_number %}
+								    							<h6>Contact:</h6>
+								    							<p>{{ order.phone_number }}</p>
+								    							{% endif %}
+								    						</div>
+								    					</div>
+								    					{% endif %}
+								    				</div>
+                                                    <button class="btn btn-outline-primary-2" onclick="window.location.href='/order/{{ order.pk}}/'"><span>View Details</span><i class="icon-long-arrow-right"></i></button>
+								    			</div>
+								    		{% endfor %}
+								    	{% else %}
+								    		<p>No order has been made yet.</p>
+								    		<a href="/category/" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
+								    	{% endif %}
 								    </div><!-- .End .tab-pane -->
 
-								    <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
+								    <div class="tab-pane fade d-none" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
 								    	<p>No downloads available yet.</p>
 								    	<a href="/category/" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
 								    </div><!-- .End .tab-pane -->
@@ -262,13 +351,15 @@
 								    				<div class="card-body">
 								    					<h3 class="card-title">Billing Address</h3><!-- End .card-title -->
 
-														<p>User Name<br>
-														User Company<br>
-														John str<br>
-														New York, NY 10001<br>
-														1-234-987-6543<br>
-														yourmail@mail.com<br>
-														<a href="#">Edit <i class="icon-edit"></i></a></p>
+														{% if request.user.first_name %}
+														<p><strong>{{ request.user.first_name }} {{ request.user.last_name }}</strong><br>
+														{{ request.user.email }}<br>
+														{% if profile.phone_number %}{{ profile.phone_number }}<br>{% endif %}
+														<a href="#tab-account" class="tab-trigger-link">Edit <i class="icon-edit"></i></a></p>
+														{% else %}
+														<p>You have not set up this type of address yet.<br>
+														<a href="#tab-account" class="tab-trigger-link">Edit <i class="icon-edit"></i></a></p>
+														{% endif %}
 								    				</div><!-- End .card-body -->
 								    			</div><!-- End .card-dashboard -->
 								    		</div><!-- End .col-lg-6 -->
@@ -278,8 +369,14 @@
 								    				<div class="card-body">
 								    					<h3 class="card-title">Shipping Address</h3><!-- End .card-title -->
 
-														<p>You have not set up this type of address yet.<br>
-														<a href="#">Edit <i class="icon-edit"></i></a></p>
+														{% if last_shipping_address %}
+														<p>{{ last_shipping_address }}<br>
+														{% if last_phone_number %}<strong>Phone:</strong> {{ last_phone_number }}<br>{% endif %}
+														<a href="/checkout/">Add More Addresses <i class="icon-edit"></i></a></p>
+														{% else %}
+														<p>You have not set up this type of address yet. Add it during checkout.<br>
+														<a href="/checkout/">Go to Checkout <i class="icon-edit"></i></a></p>
+														{% endif %}
 								    				</div><!-- End .card-body -->
 								    			</div><!-- End .card-dashboard -->
 								    		</div><!-- End .col-lg-6 -->
@@ -287,34 +384,28 @@
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
-								    	<form action="#">
+								    	<form method="post" action="{% url 'dashboard' %}" enctype="multipart/form-data">
+								    		{% csrf_token %}
 			                				<div class="row">
 			                					<div class="col-sm-6">
-			                						<label>First Name *</label>
-			                						<input type="text" class="form-control" required>
+			                						<label>First Name</label>
+			                						{{ user_form.first_name }}
 			                					</div><!-- End .col-sm-6 -->
 
 			                					<div class="col-sm-6">
-			                						<label>Last Name *</label>
-			                						<input type="text" class="form-control" required>
+			                						<label>Last Name</label>
+			                						{{ user_form.last_name }}
 			                					</div><!-- End .col-sm-6 -->
 			                				</div><!-- End .row -->
 
-		            						<label>Display Name *</label>
-		            						<input type="text" class="form-control" required>
-		            						<small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
+		                					<label>Email address</label>
+		        							{{ user_form.email }}
 
-		                					<label>Email address *</label>
-		        							<input type="email" class="form-control" required>
+		                					<label>Avatar</label>
+		        							{{ profile_form.avatar }}
 
-		            						<label>Current password (leave blank to leave unchanged)</label>
-		            						<input type="password" class="form-control">
-
-		            						<label>New password (leave blank to leave unchanged)</label>
-		            						<input type="password" class="form-control">
-
-		            						<label>Confirm new password</label>
-		            						<input type="password" class="form-control mb-2">
+		                					<label>Phone Number</label>
+		        							{{ profile_form.phone_number }}
 
 		                					<button type="submit" class="btn btn-outline-primary-2">
 			                					<span>SAVE CHANGES</span>
@@ -330,7 +421,7 @@
             </div><!-- End .page-content -->
         </main><!-- End .main -->
 
-        <footer class="footer">
+        <footer class="footer d-none">
         	<div class="footer-middle">
 	            <div class="container">
 	            	<div class="row">

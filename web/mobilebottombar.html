@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="{% static 'assets/css/bottombarstyles.css' %}">
+
+<!-- Bottom Bar for Mobile -->
+<div class="bottom-bar">
+  <a href="/home" class="bottom-item active">
+    <i class="icon-home"></i>
+    <span>Home</span>
+  </a>
+  <a href="/category" class="bottom-item">
+    <i class="icon-bars"></i>
+    <span>Cartegory</span>
+  </a>
+  <a href="/cart" class="bottom-item">
+    <i class="icon-shopping-cart"></i>
+    <span>Cart</span>
+  </a>
+  <a href="/dashboard" class="bottom-item">
+    <i class="icon-user"></i>
+    <span>Account</span>
+  </a>
+</div>
+
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get current page filename (e.g., "index.html")
+    const currentPage = window.location.pathname.split("/").pop();
+
+    // Select all bottom bar items
+    const bottomItems = document.querySelectorAll(".bottom-bar .bottom-item");
+
+    bottomItems.forEach(item => {
+      const linkPage = item.getAttribute("href").split("/").pop();
+
+      // If link matches current page, add active class
+      if (linkPage === currentPage) {
+        item.classList.add("active");
+      }
+    });
+  });
+</script>

@@ -35,7 +35,7 @@
 <body>
     <div class="page-wrapper">
         <header class="header">
-            <div class="header-top">
+            <div class="header-top d-none">
                 <div class="container">
                     <div class="header-left">
                         <div class="header-dropdown">
@@ -123,29 +123,7 @@
                                 </div><!-- End .header-search-wrapper -->
                             </form>
                         </div><!-- End .header-search -->
-                        <div class="dropdown compare-dropdown">
-                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
-                                <i class="icon-random"></i>
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <ul class="compare-products">
-                                    <li class="compare-product">
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                        <h4 class="compare-product-title"><a href="/product/">Blue Night Dress</a></h4>
-                                    </li>
-                                    <li class="compare-product">
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                        <h4 class="compare-product-title"><a href="/product/">White Long Skirt</a></h4>
-                                    </li>
-                                </ul>
-
-                                <div class="compare-actions">
-                                    <a href="#" class="action-link">Clear All</a>
-                                    <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i class="icon-long-arrow-right"></i></a>
-                                </div>
-                            </div><!-- End .dropdown-menu -->
-                        </div><!-- End .compare-dropdown -->
+                        
 
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
@@ -155,11 +133,11 @@
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div class="dropdown-cart-products">
-                                {% for item in cart%}
+                                {% for item in cart.product.all %}
                                     <div class="product">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
-                                                <a href="/product/">{{item.name}}</a>
+                                                <a href="/product/{{item.name}}/">{{item.name}}</a>
                                             </h4>
 
                                             <span class="cart-product-info">
@@ -169,11 +147,11 @@
                                         </div><!-- End .product-cart-details -->
 
                                         <figure class="product-image-container">
-                                            <a href="/product/" class="product-image">
+                                            <a href="/product/{{item.name}}" class="product-image">
                                                 <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">
                                             </a>
                                         </figure>
-                                        <a href="remove/{{item.name}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        <a href="/remove/{{item.name}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
                                     </div><!-- End .product -->
                                 {% endfor %}
                                 </div><!-- End .cart-product -->
@@ -181,7 +159,7 @@
                                 <div class="dropdown-cart-total">
                                     <span>Total</span>
 
-                                    <span class="cart-total-price">$160.00</span>
+                                    <span class="cart-total-price">Ksh {{cart.get_total}} </span>
                                 </div><!-- End .dropdown-cart-total -->
 
                                 <div class="dropdown-cart-action">
@@ -226,7 +204,7 @@
                                 <div class="product-gallery product-gallery-vertical">
                                     <div class="row">
                                         <figure class="product-main-image">
-                                            <img src="{% if product.image %} {{product.image.url}} {% else %} {{defaultimage.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" id="product-zoom" data-zoom-image="">
+                                            <img src="{% if product.image %} {{product.image.url}} {% else %} {{default_image.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" id="product-zoom" data-zoom-image="">
 
                                             <a href="#" id="btn-product-gallery" class="btn-product-gallery d-none">
                                                 <i class="icon-arrows"></i>
@@ -258,7 +236,7 @@
                                 <div class="product-details">
                                     <h1 class="product-title">{{product.name}}</h1><!-- End .product-title -->
 
-                                    <div class="ratings-container">
+                                    <div class="ratings-container d-none">
                                         <div class="ratings">
                                             <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
                                         </div><!-- End .ratings -->
@@ -301,21 +279,26 @@
                                         <a href="#" class="size-guide"><i class="icon-th-list"></i>size guide</a>
                                     </div><!-- End .details-filter-row -->
 
+                                    <form action='/add/{{product.name}}/' method='GET'>
+                                    {% csrf_token %}
                                     <div class="details-filter-row details-row-size">
                                         <label for="qty">Qty:</label>
                                         <div class="product-details-quantity">
-                                            <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                                            {{global_add_form.order_amount}}
+                                            <!--input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required-->
                                         </div><!-- End .product-details-quantity -->
                                     </div><!-- End .details-filter-row -->
 
                                     <div class="product-details-action">
-                                        <a href="/add/{{item.name}}/"  class="btn-product btn-cart"><span>add to cart</span></a>
+                                        <!--a href="/add/{{product.name}}/"  class="btn-product btn-cart"><span>add to cart</span></a-->
+                                        <button type='submit' class="btn-product btn-cart"><span>add to cart</span></button>
 
                                         <div class="details-action-wrapper">
                                             <a href="/addwishlist/{{product.name}}/" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
-                                            <a href="#" class="btn-product btn-compare" title="Compare"><span>Add to Compare</span></a>
+                                            
                                         </div><!-- End .details-action-wrapper -->
                                     </div><!-- End .product-details-action -->
+                                    </form>
 
                                     <div class="product-details-footer">
                                         <div class="product-cat">
@@ -323,7 +306,7 @@
                                             <a href="#">{{product.category}}</a>,
                                         </div><!-- End .product-cat -->
 
-                                        <div class="social-icons social-icons-sm">
+                                        <div class="social-icons social-icons-sm d-none">
                                             <span class="social-label">Share:</span>
                                             <a href="#" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
                                             <a href="#" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
@@ -398,7 +381,7 @@
                                         <div class="row no-gutters">
                                             <div class="col-auto">
                                                 <h4><a href="#">Samanta J.</a></h4>
-                                                <div class="ratings-container">
+                                                <div class="ratings-container d-none">
                                                     <div class="ratings">
                                                         <div class="ratings-val" style="width: 80%;"></div><!-- End .ratings-val -->
                                                     </div><!-- End .ratings -->
@@ -424,7 +407,7 @@
                                         <div class="row no-gutters">
                                             <div class="col-auto">
                                                 <h4><a href="#">John Doe</a></h4>
-                                                <div class="ratings-container">
+                                                <div class="ratings-container d-none">
                                                     <div class="ratings">
                                                         <div class="ratings-val" style="width: 100%;"></div><!-- End .ratings-val -->
                                                     </div><!-- End .ratings -->
@@ -483,13 +466,13 @@
                             <figure class="product-media">
                                 <span class="product-label label-new">New</span>
                                 <a href="/product/{{item}}/">
-                                    <img src="{% if item.image %} {{item.image.url}} {% else %} {{defaultimage.image.url|default:'/static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{item.name}} image" class="product-image">
+                                    <img src="{% if item.image %} {{item.image.url}} {% else %} {{default_image.image.url|default:'/static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{item.name}} image" class="product-image">
                                 </a>
 
                                 <div class="product-action-vertical">
-                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                    <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
-                                    <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
+                                    <a href="/addwishlist/{{item.name}}/" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                    
+                                    
                                 </div><!-- End .product-action-vertical -->
 
                                 <div class="product-action">
@@ -505,7 +488,7 @@
                                 <div class="product-price">
                                     Ksh{{item.sellp}}
                                 </div><!-- End .product-price -->
-                                <div class="ratings-container">
+                                <div class="ratings-container d-none">
                                     <div class="ratings">
                                         <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
                                     </div><!-- End .ratings -->
@@ -533,7 +516,7 @@
             </div><!-- End .page-content -->
         </main><!-- End .main -->
 
-        <footer class="footer">
+        <footer class="footer d-none">
         	<div class="footer-middle">
 	            <div class="container">
 	            	<div class="row">
@@ -611,7 +594,7 @@
     <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
 
     <!-- Sticky Bar -->
-    <div class="sticky-bar">
+    <div class="sticky-bar d-none">
         <div class="container">
             <div class="row">
                 <div class="col-6">
@@ -627,14 +610,19 @@
                     <div class="product-price">
                         Ksh{{product.sellp}}
                     </div><!-- End .product-price -->
+                    <form action="/add/{{product.name}}/" method="GET">
+                    {% csrf_token %}
                     <div class="product-details-quantity">
-                        <input type="number" id="sticky-cart-qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                        {{global_add_form.order_amount}}
+                        <!--input type="number" id="sticky-cart-qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required-->
                     </div><!-- End .product-details-quantity -->
 
                     <div class="product-details-action">
-                        <a href="/add/{{item.name}}/"  class="btn-product btn-cart"><span>add to cart</span></a>
+                        <button type='submit' class="btn-product btn-cart"><span>add to cart</span></button>
+                        <!--a href="/add/{{product.name}}/"  class="btn-product btn-cart"><span>add to cart</span></a-->
                         <a href="/addwishlist/{{product.name}}/" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
                     </div><!-- End .product-details-action -->
+                    </form>
                 </div><!-- End .col-6 -->
             </div><!-- End .row -->
         </div><!-- End .container -->

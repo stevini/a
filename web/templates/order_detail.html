@@ -1,0 +1,232 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Order Details - Bingo Mart</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Bingo Mart">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/images/icons/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/icons/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/icons/favicon-16x16.png' %}">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            <div class="header-middle sticky-header">
+                <div class="container">
+                    <div class="header-left">
+                        <a href="/" class="logo">
+                            <img src="{% static 'assets/images/logo.png' %}" alt="Bingo Mart Logo" width="105" height="25">
+                        </a>
+                    </div>
+                    <div class="header-right">
+                        <div class="dropdown cart-dropdown">
+                            <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <i class="icon-shopping-cart"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="page-content">
+                <div class="order-detail">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8 offset-md-2">
+                                <!-- Messages -->
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                            {{ message }}
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                <!-- Order Receipt Header -->
+                                <div class="card mb-4">
+                                    <div class="card-header bg-light">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-6">
+                                                <h3 class="mb-0">Order Receipt</h3>
+                                                <p class="text-muted mb-0">Order #{{ order.order_number }}</p>
+                                            </div>
+                                            <div class="col-md-6 text-md-right">
+                                                <p class="mb-1"><strong>Order Date:</strong></p>
+                                                <p class="text-muted">{{ order.order_date|date:"M d, Y H:i" }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Status Badges -->
+                                    <div class="card-body border-bottom">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h6 class="mb-2">Order Status</h6>
+                                                {% if order.status == 'pending' %}
+                                                    <span class="badge badge-warning">{{ order.get_status_display }}</span>
+                                                {% elif order.status == 'processing' %}
+                                                    <span class="badge badge-info">{{ order.get_status_display }}</span>
+                                                {% elif order.status == 'shipped' %}
+                                                    <span class="badge badge-primary">{{ order.get_status_display }}</span>
+                                                {% elif order.status == 'delivered' %}
+                                                    <span class="badge badge-success">{{ order.get_status_display }}</span>
+                                                {% elif order.status == 'cancelled' %}
+                                                    <span class="badge badge-danger">{{ order.get_status_display }}</span>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="mb-2">Payment Status</h6>
+                                                {% if order.payment_status == 'pending' %}
+                                                    <span class="badge badge-warning">{{ order.get_payment_status_display }}</span>
+                                                {% elif order.payment_status == 'completed' %}
+                                                    <span class="badge badge-success">{{ order.get_payment_status_display }}</span>
+                                                {% elif order.payment_status == 'failed' %}
+                                                    <span class="badge badge-danger">{{ order.get_payment_status_display }}</span>
+                                                {% elif order.payment_status == 'refunded' %}
+                                                    <span class="badge badge-secondary">{{ order.get_payment_status_display }}</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Order Items -->
+                                <div class="card mb-4">
+                                    <div class="card-header bg-light">
+                                        <h5 class="mb-0">Order Items</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product</th>
+                                                        <th class="text-center" style="width: 100px;">Quantity</th>
+                                                        <th class="text-right" style="width: 120px;">Price</th>
+                                                        <th class="text-right" style="width: 120px;">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for product in order_products %}
+                                                    <tr>
+                                                        <td>
+                                                            <strong>{{ product.name }}</strong>
+                                                            <br>
+                                                            <small class="text-muted">Code: {{ product.code }}</small>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            {{ product.order_amount }}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            Ksh {{ product.sellp|floatformat:2 }}
+                                                        </td>
+                                                        <td class="text-right">
+                                                            <strong>Ksh {{ product.get_total|floatformat:2 }}</strong>
+                                                        </td>
+                                                    </tr>
+                                                    {% empty %}
+                                                    <tr>
+                                                        <td colspan="4" class="text-center text-muted">No items in this order</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Order Summary -->
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                {% if order.shipping_address %}
+                                                <h6 class="mb-3">Shipping Address</h6>
+                                                <p class="text-muted mb-0">{{ order.shipping_address }}</p>
+                                                {% endif %}
+                                                
+                                                {% if order.phone_number %}
+                                                <h6 class="mt-3 mb-2">Phone Number</h6>
+                                                <p class="text-muted">{{ order.phone_number }}</p>
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="summary">
+                                                    <table class="table table-sm">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Subtotal:</td>
+                                                                <td class="text-right">Ksh {{ order.total_amount|floatformat:2 }}</td>
+                                                            </tr>
+                                                            <tr class="border-top">
+                                                                <td><strong>Order Total:</strong></td>
+                                                                <td class="text-right">
+                                                                    <strong>Ksh {{ order.total_amount|floatformat:2 }}</strong>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Actions -->
+                                <div class="text-center mb-4">
+                                    <a href="{% url 'dashboard' %}" class="btn btn-outline-primary-2">
+                                        <span>Back to Dashboard</span>
+                                        <i class="icon-long-arrow-left"></i>
+                                    </a>
+                                    <button onclick="window.print()" class="btn btn-outline-primary-2 ml-2">
+                                        <span>Print Receipt</span>
+                                        <i class="icon-printer"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer d-none">
+            <div class="footer-middle">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="widget widget-about">
+                                <img src="{% static 'assets/images/logo.png' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
+                                <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Plugins JS File -->
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+
+</html>

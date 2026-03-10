@@ -41,7 +41,16 @@ INSTALLED_APPS = [
     'web',
     'django_daraja',
     'rest_framework',
+    'rest_framework_simplejwt',
+    'phonenumber_field',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,6 +69,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'web/templates/secondary/templates',
+            BASE_DIR / 'web/templates/samosafinest'
         ],
         'APP_DIRS': True,
         'OPTIONS': {

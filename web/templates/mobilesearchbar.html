@@ -1,0 +1,13 @@
+<link rel="stylesheet" href="{% static 'assets/css/mobilesearch.css' %}">
+
+<!-- Full-width Mobile Search Container -->
+<div class="mobile-search-container">
+  <div class="container">
+    <form action="/search/" method="get" class="mobile-search-form">
+      {% csrf_token %}
+      <input type="search" name="q" class="form-control" placeholder="Search products..." required>
+      <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+    </form>
+  </div>
+</div>
+

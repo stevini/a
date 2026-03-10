@@ -14,3 +14,4 @@ fixture.json
 entrypoint.sh
 docker-compose.yml
 /nginx
+migrations/
