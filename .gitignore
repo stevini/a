@@ -7,7 +7,7 @@ DOCKERFILE
 *.pyc
 *.pyo
 *.pyd
-web/utils
+web/utilz
 /data.txt
 products.xml
 fixture.json
