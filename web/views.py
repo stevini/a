@@ -279,12 +279,12 @@ def place_order(request):
     checkout.product.clear()
     
     messages.success(request, f'Order {order.order_number} created successfully!')
-    return redirect('order_detail', pk=order.pk)
+    return redirect('order_detail', order_number=order.order_number)
 
 @login_required
-def order_detail(request, pk):
+def order_detail(request, order_number):
     """Display order details"""
-    order = get_object_or_404(Order, pk=pk, user=request.user)
+    order = get_object_or_404(Order, order_number=order_number, user=request.user)
     context = get_base_context(request)
     context['order'] = order
     context['order_products'] = order.product.all()

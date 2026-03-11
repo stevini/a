@@ -328,7 +328,7 @@
 								    					</div>
 								    					{% endif %}
 								    				</div>
-                                                    <button class="btn btn-outline-primary-2" onclick="window.location.href='/order/{{ order.pk}}/'"><span>View Details</span><i class="icon-long-arrow-right"></i></button>
+                                                    <button class="btn btn-outline-primary-2" onclick="window.location.href='{% url 'order_detail' order.order_number %}'"><span>Track Order</span><i class="icon-long-arrow-right"></i></button>
 								    			</div>
 								    		{% endfor %}
 								    	{% else %}

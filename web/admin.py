@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Products, Cart, Profile, WishList, Checkout, DefaultImages
+from .models import Category, Products, Cart, Profile, WishList, Checkout, DefaultImages, Order
 
 class CategoryAdmin(admin.ModelAdmin):
     filter_horizontal = ('product',)  # or use filter_vertical
@@ -20,3 +20,4 @@ admin.site.register(Profile)
 admin.site.register(WishList)
 admin.site.register(Checkout)
 admin.site.register(DefaultImages)
+admin.site.register(Order)
