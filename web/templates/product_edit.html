@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/bottombarstyles.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/plugins/owl-carousel/owl.carousel.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/plugins/magnific-popup/magnific-popup.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/plugins/nouislider/nouislider.css' %}">
@@ -673,7 +674,7 @@
 	            				<ul class="widget-list">
 	            					<li><a href="#">Sign In</a></li>
 	            					<li><a href="cart.html">View Cart</a></li>
-	            					<li><a href="#">My Wishlist</a></li>
+	            					<!--li><a href="#">My Wishlist</a></li-->
 	            					<li><a href="#">Track My Order</a></li>
 	            					<li><a href="#">Help</a></li>
 	            				</ul><!-- End .widget-list -->
@@ -981,6 +982,26 @@
         </div><!-- End .modal-dialog -->
     </div><!-- End .modal -->
 
+    <!-- Bottom Bar for Mobile -->
+    <div class="bottom-bar">
+        <a href="/home" class="bottom-item">
+            <i class="icon-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="/category" class="bottom-item">
+            <i class="icon-bars"></i>
+            <span>Category</span>
+        </a>
+        <a href="/cart" class="bottom-item">
+            <i class="icon-shopping-cart"></i>
+            <span>Cart</span>
+        </a>
+        <a href="/dashboard" class="bottom-item">
+            <i class="icon-user"></i>
+            <span>Account</span>
+        </a>
+    </div>
+
     <!-- Plugins JS File -->
     <script src="{% static 'assets/js/jquery.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
@@ -988,12 +1009,14 @@
     <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
     <script src="{% static 'assets/js/superfish.min.js' %}"></script>
     <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'assets/js/wNumb.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap-input-spinner.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.elevateZoom.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap-input-spinner.js' %}"></script>
     <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
-    <script src="{% static 'assets/js/nouislider.min.js' %}"></script>
     <!-- Main JS File -->
+    <script src="{% static 'assets/js/bottombar.js' %}"></script>
     <script src="{% static 'assets/js/main.js' %}"></script>
+</body>
 </body>
 
 

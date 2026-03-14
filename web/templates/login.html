@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/bottombarstyles.css' %}">
 </head>
 
 <body>
@@ -63,7 +64,7 @@
                                 <a href="#">Links</a>
                                 <ul>
                                     <li><a href="tel:#"><i class="icon-phone"></i>Call: + 254 0716551972</a></li>
-                                    <li><a href="/wishlist/"><i class="icon-heart-o"></i>Wishlist <span>(3)</span></a></li>
+                                    <!--li><a href="/wishlist/"><i class="icon-heart-o"></i>Wishlist <span>(3)</span></a></li-->
                                     <li><a href="/about/">About Us</a></li>
                                     <li><a href="/contact/">Contact Us</a></li>
                                     <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
@@ -82,7 +83,7 @@
                             <i class="icon-bars"></i>
                         </button>
 
-                        <a href="/" class="logo">
+                        <a href="/home/" class="logo">
                             <img src="{% static 'assets/images/logo.png' %}" alt="Bingo Mart Logo" width="105" height="25">
                         </a>
 
@@ -98,7 +99,7 @@
                                     <a href="/cart/" class="">Cart</a>
                                 </li>
                                 <li>
-                                    <a href="/wishlist/" class="">wishlist</a>
+                                    <!--a href="/wishlist/" class="">wishlist</a-->
                                 </li>
                                 <li>
                                     <a href="/checkout/" class="">Checkout</a>
@@ -174,7 +175,7 @@
             <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
                 <div class="container">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/home/">Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Pages</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Login</li>
                     </ol>
@@ -234,6 +235,7 @@
 
 											<a href="#" class="forgot-link">Forgot Your Password?</a>
 							    		</div><!-- End .form-footer -->
+							    		<strong>Don't have an account? <a href="#" onclick="switchToRegister()">Register here</a></strong>
 							    	</form>
 
 							    	<div class="form-choice d-none">
@@ -298,6 +300,7 @@
 												<label class="custom-control-label" for="register-policy-2">I agree to the <a href="#">privacy policy</a> *</label>
 											</div><!-- End .custom-checkbox -->
 							    		</div><!-- End .form-footer -->
+							    		<strong>Already have an account? <a href="#" onclick="switchToSignIn()">Sign In here</a></strong>
 							    	</form>
 
 							    	<div class="form-choice d-none">
@@ -380,7 +383,7 @@
 	            				<ul class="widget-list">
 	            					<li><a href="#">Sign In</a></li>
 	            					<li><a href="/cart/">View Cart</a></li>
-	            					<li><a href="#">My Wishlist</a></li>
+	            					<!--li><a href="#">My Wishlist</a></li-->
 	            					<li><a href="#">Track My Order</a></li>
 	            					<li><a href="#">Help</a></li>
 	            				</ul><!-- End .widget-list -->
@@ -427,7 +430,7 @@
                                 <a href="/cart/" class="">Cart</a>
                             </li>
                             <li>
-                                <a href="/wishlist/" class="">wishlist</a>
+                                <!--a href="/wishlist/" class="">wishlist</a-->
                             </li>
                             <li>
                                 <a href="/checkout/" class="">Checkout</a>
@@ -561,6 +564,35 @@
         </div><!-- End .modal-dialog -->
     </div><!-- End .modal -->
 
+    <script>
+    function switchToRegister() {
+        $('#register-tab-2').tab('show');
+    }
+    function switchToSignIn() {
+        $('#signin-tab-2').tab('show');
+    }
+    </script>
+
+    <!-- Bottom Bar for Mobile -->
+    <div class="bottom-bar">
+        <a href="/home" class="bottom-item">
+            <i class="icon-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="/category" class="bottom-item">
+            <i class="icon-bars"></i>
+            <span>Category</span>
+        </a>
+        <a href="/cart" class="bottom-item">
+            <i class="icon-shopping-cart"></i>
+            <span>Cart</span>
+        </a>
+        <a href="/dashboard" class="bottom-item">
+            <i class="icon-user"></i>
+            <span>Account</span>
+        </a>
+    </div>
+
     <!-- Plugins JS File -->
     <script src="{% static 'assets/js/jquery.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
@@ -568,8 +600,13 @@
     <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
     <script src="{% static 'assets/js/superfish.min.js' %}"></script>
     <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap-input-spinner.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.elevateZoom.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap-input-spinner.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
     <!-- Main JS File -->
-    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/bottombar.js' %}"></script><script src="{% static 'assets/js/main.js' %}"></script>
+</body>
 </body>
 
 

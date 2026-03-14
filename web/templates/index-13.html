@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="{% static 'assets/css/plugins/jquery.countdown.css' %}">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/bottombarstyles.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/skins/skin-demo-13.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/demos/demo-13.css' %}">
 </head>
@@ -88,7 +89,7 @@
                             <i class="icon-bars"></i>
                         </button>
                         
-                        <a href="/" class="logo">
+                        <a href="/home/" class="logo">
                             <img src="{% static 'assets/images/demos/demo-13/logo.png' %}" alt="Bingo Mart Logo" width="105" height="25">
                         </a>
                     </div><!-- End .header-left -->
@@ -212,9 +213,9 @@
                                 <nav class="side-nav">
                                     <ul class="menu-vertical sf-arrows">
                                         <li class="megamenu-container">
-                                            <a class="sf-with-ul" href="#">Electronics</a>
+                                            <!--a class="sf-with-ul" href="#">Electronics</a>
 
-                                            <!--div class="megamenu">
+                                            <div class="megamenu">
                                                 <div class="row no-gutters">
                                                     <div class="col-md-8">
                                                         <div class="menu-col">
@@ -273,11 +274,6 @@
                                                     </div><End .col-md-4>
                                                 </div><End .row>
                                             </div><End .megamenu -->
-                                       </li>
-                                        {% for item in categories %}
-                                        <li class='category-link'><a href="#">{{item.name}}</a></li>
-                                        {% endfor %}
-
                                     </ul><!-- End .menu-vertical -->
                                 </nav><!-- End .side-nav -->
                             </div><!-- End .dropdown-menu -->
@@ -296,7 +292,7 @@
                                     <a href="/cart/" class="">Cart</a>
                                 </li>
                                 <li>
-                                    <a href="/wishlist/" class="">wishlist</a>
+                                    <!--a href="/wishlist/" class="">wishlist</a-->
                                 </li>
                                 <li>
                                     <a href="/checkout/" class="">Checkout</a>
@@ -877,7 +873,7 @@
                                 <ul class="widget-list">
                                     <li><a href="#">Sign In</a></li>
                                     <li><a href="/cart/">View Cart</a></li>
-                                    <li><a href="#">My Wishlist</a></li>
+                                    <!--li><a href="#">My Wishlist</a></li-->
                                     <li><a href="#">Track My Order</a></li>
                                     <li><a href="#">Help</a></li>
                                 </ul><!-- End .widget-list -->
@@ -945,7 +941,7 @@
                                 <a href="/cart/" class="">Cart</a>
                             </li>
                             <li>
-                                <a href="/wishlist/" class="">wishlist</a>
+                                <!--a href="/wishlist/" class="">wishlist</a-->
                             </li>
                             <li>
                                 <a href="/checkout/" class="">Checkout</a>
@@ -1121,6 +1117,26 @@
     </div>
     </div>
 
+    <!-- Bottom Bar for Mobile -->
+    <div class="bottom-bar">
+        <a href="/home" class="bottom-item">
+            <i class="icon-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="/category" class="bottom-item">
+            <i class="icon-bars"></i>
+            <span>Category</span>
+        </a>
+        <a href="/cart" class="bottom-item">
+            <i class="icon-shopping-cart"></i>
+            <span>Cart</span>
+        </a>
+        <a href="/dashboard" class="bottom-item">
+            <i class="icon-user"></i>
+            <span>Account</span>
+        </a>
+    </div>
+
     <!-- Plugins JS File -->
     <script src="{% static 'assets/js/jquery.min.js' %}"></script>
     <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
@@ -1145,6 +1161,7 @@
         modal.find('.modal-body .price').text('Ksh ' + price);
         });
     </script>
+    <script src="{% static 'assets/js/bottombar.js' %}"></script>
     
     <!-- Main JS File -->
     <script src="{% static 'assets/js/main.js' %}"></script>
