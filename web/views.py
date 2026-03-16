@@ -130,6 +130,7 @@ def category_view(request):
     }
     return render(request, 'basecategory.html', context)
 
+@cache_page(60 * 15)
 def category(request, name):
     cat = Category.objects.filter(name=name).first()
     products = Products.objects.filter(category=cat) if cat else Products.objects.none()
