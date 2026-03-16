@@ -1,0 +1,15 @@
+/* Custom CSS to fix search bar alignment */
+.header-search-extended .btn {
+    height: 44px !important; /* Match input field height */
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.header-search-extended .form-control {
+    margin-bottom: 0 !important;
+}
+
+/* Ensure flexbox alignment */
+.header-search-wrapper {
+    align-items: center !important;
+}

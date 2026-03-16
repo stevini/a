@@ -18,6 +18,7 @@
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/bottombarstyles.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/mobilesearch.css' %}">
 </head>
 
 <body>
@@ -40,6 +41,7 @@
                 </div>
             </div>
         </header>
+        {% include 'mobilesearchbar.html' %}
 
         <main class="main">
             <div class="page-content">

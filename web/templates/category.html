@@ -28,9 +28,11 @@
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/bottombarstyles.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/mobilesearch.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/plugins/owl-carousel/owl.carousel.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/plugins/magnific-popup/magnific-popup.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/plugins/nouislider/nouislider.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/search-fix.css' %}">
 </head>
 
 <body>
@@ -173,6 +175,7 @@
                 </div><!-- End .container -->
             </div><!-- End .header-middle -->
         </header><!-- End .header -->
+        {% include 'mobilesearchbar.html' %}
 
         <main class="main">
         	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">

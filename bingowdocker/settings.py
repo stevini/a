@@ -151,3 +151,14 @@ MEDIA_ROOT = BASE_DIR / 'web/static'  # Directory for storing media files
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Caching configuration
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_table',
+    }
+}
+
+# Cache timeout in seconds (1 hour = 3600)
+CACHE_MIDDLEWARE_SECONDS = 3600

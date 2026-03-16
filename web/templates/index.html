@@ -36,6 +36,7 @@
 		<!-- Theme CSS -->
 		<link rel="stylesheet" href="{% static 'assets/css/main.min.css' %}">
 		<link rel="stylesheet" href="{% static 'assets/css/bottombarstyles.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/css/mobilesearch.css' %}">
 
 	</head>
 	<body>
@@ -69,6 +70,7 @@
 					</div>
 				</div>
 			</header>
+			{% include 'mobilesearchbar.html' %}
 			<div id="main">
 				<section class="banner section-dark" style="background: #222;">
 					<img src="{% static 'assets/images/demos-img/header_splash.jpg' %}" alt="" width="1920" height="1120">

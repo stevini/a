@@ -3,62 +3,182 @@ from django.contrib.auth import authenticate, logout, login
 from django.contrib import messages
 from .forms import CustomUserCreationForm, CustomLoginForm, SearchForm, ProductEditForm, AddToCart, ProfileForm, UserDetailsForm, ShippingAddressForm
 from django.contrib.auth.decorators import login_required
-from . models import Category, Products, Cart, WishList, Checkout, User, Profile, Order
+from . models import Category, Products, Cart, WishList, Checkout, User, Profile, Order, DefaultImages
 from web.utils.login import user_is_superuser_or_staff
 from django_daraja.views import stk_push_success
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
+from django.db.models import Count
 
-from .context_helpers import get_base_context, get_cart_products, get_category_products
+
+def get_cached_categories():
+    """Get cached categories list."""
+    cache_key = 'categories'
+    categories = cache.get(cache_key)
+    if categories is None:
+        categories = list(Category.objects.all())
+        cache.set(cache_key, categories, 3600)
+    return categories
+
+
+def get_cached_featured_categories():
+    """Get cached featured categories."""
+    cache_key = 'categories_featured'
+    categories = cache.get(cache_key)
+    if categories is None:
+        categories = list(Category.objects.all()[:6])
+        cache.set(cache_key, categories, 3600)
+    return categories
+
+
+def get_cached_countable_categories():
+    """Get cached categories with product counts."""
+    cache_key = 'countable_categories'
+    categories = cache.get(cache_key)
+    if categories is None:
+        categories = list(Category.objects.annotate(count=Count('product')))
+        cache.set(cache_key, categories, 3600)
+    return categories
+
+
+def get_cached_default_image():
+    """Get cached default image."""
+    cache_key = 'default_image'
+    image = cache.get(cache_key)
+    if image is None:
+        image = DefaultImages.objects.first()
+        cache.set(cache_key, image, 3600)
+    return image
+
+
+def get_cached_products(limit=None):
+    """Get cached products."""
+    cache_key = f'products_{limit}' if limit else 'products_all'
+    products = cache.get(cache_key)
+    if products is None:
+        if limit:
+            products = list(Products.objects.all()[:limit])
+        else:
+            products = list(Products.objects.all())
+        cache.set(cache_key, products, 3600)
+    return products
+
+
+def get_cached_active_products():
+    """Get cached active products."""
+    cache_key = 'active_products'
+    products = cache.get(cache_key)
+    if products is None:
+        products = list(Products.objects.filter(active=True))
+        cache.set(cache_key, products, 3600)
+    return products
+
+
+def clear_cache():
+    """Clear all caches."""
+    cache.delete('categories')
+    cache.delete('categories_featured')
+    cache.delete('countable_categories')
+    cache.delete('default_image')
+    cache.delete('products_4')
+    cache.delete('products_6')
+    cache.delete('products_all')
+    cache.delete('active_products')
 
 def view404(request):
-    context = get_base_context(request)
+    context = {
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, '404.html', context)
 
 def about(request):
-    context = get_base_context(request)
+    context = {
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'about.html', context)
 
 @login_required
 def cart(request):
-    context = get_base_context(request)
-    cart_obj = get_cart_products(request)
-    context['products'] = cart_obj.product.all()
+    cart_obj = None
+    products = []
+    if request.user.is_authenticated:
+        cart_obj, _ = Cart.objects.get_or_create(user=request.user)
+        products = cart_obj.product.all()
+    
+    context = {
+        'cart': cart_obj,
+        'products': products,
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'cart.html', context)
 
 def category_view(request):
-    context = get_base_context(request)
-    context['products'] = Products.objects.all()
-    context['categories'] = Category.objects.all()
-    context['category_products'] = get_category_products(context['countable_categories'])
+    # Build category products mapping
+    countable_categories = get_cached_countable_categories()
+    category_products = {}
+    for category in countable_categories:
+        category_products[category] = category.product.all()
+    
+    context = {
+        'products': get_cached_products(),
+        'categories': get_cached_categories(),
+        'category_products': category_products,
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'basecategory.html', context)
 
 def category(request, name):
-    context = get_base_context(request)
     cat = Category.objects.filter(name=name).first()
-    context['current_category'] = cat
-    context['products'] = Products.objects.filter(category=cat) if cat else Products.objects.none()
-    context['categories'] = Category.objects.all()
-    context['category_products'] = get_category_products(context['countable_categories'])
+    products = Products.objects.filter(category=cat) if cat else Products.objects.none()
+    
+    # Build category products mapping
+    countable_categories = get_cached_countable_categories()
+    category_products = {}
+    for category in countable_categories:
+        category_products[category] = category.product.all()
+    
+    context = {
+        'current_category': cat,
+        'products': products,
+        'categories': get_cached_categories(),
+        'category_products': category_products,
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'category.html', context)
 
 @login_required
 def checkout(request):
-    context = get_base_context(request)
     checkout_obj, _ = Checkout.objects.get_or_create(user=request.user)
-    context['products'] = checkout_obj.product.all()
-    context['subs'] = checkout_obj.subtotals()
+    products = checkout_obj.product.all()
+    subs = checkout_obj.subtotals()
+    
+    context = {
+        'products': products,
+        'subs': subs,
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'checkout.html', context)
 
 def comingSoon(request):
-    context = get_base_context(request)
+    context = {
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'coming-soon.html', context)
 
 def contact(request):
-    context = get_base_context(request)
+    context = {
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'contact.html', context)
 
 @login_required
 def dashboard(request):
-    context = get_base_context(request)
     profile, _ = Profile.objects.get_or_create(user=request.user)
     
     if request.method == 'POST':
@@ -80,26 +200,48 @@ def dashboard(request):
     orders = Order.objects.filter(user=request.user).order_by('-order_date')
     last_order = orders.first()
     
-    context['user_form'] = user_form
-    context['profile_form'] = profile_form
-    context['orders'] = orders
-    context['last_shipping_address'] = last_order.shipping_address if last_order else None
-    context['last_phone_number'] = last_order.phone_number if last_order else None
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'orders': orders,
+        'last_shipping_address': last_order.shipping_address if last_order else None,
+        'last_phone_number': last_order.phone_number if last_order else None,
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'dashboard.html', context)
 
+#@cache_page(60 * 15)
 def index13(request):
-    context = get_base_context(request)
-    context['products'] = Products.objects.all()[:6]
-    context['search'] = SearchForm(request.GET)
-    context['cartform'] = AddToCart(request.GET)
+    # Get user cart if authenticated
+    cart = None
+    if request.user.is_authenticated:
+        cart, _ = Cart.objects.get_or_create(user=request.user)
+    
+    context = {
+        'products': get_cached_products(6),
+        'search': SearchForm(request.GET),
+        'cartform': AddToCart(request.GET),
+        'cart': cart,
+        'categories': get_cached_categories(),
+        'categories_featured': get_cached_featured_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'index-13.html', context)
 
 def index(request):
-    context = get_base_context(request)
+    context = {
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'index.html', context)
 
 def login_view(request):
-    context = get_base_context(request)
+    context = {
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
+    
     creation_form = CustomUserCreationForm()
     login_form = CustomLoginForm()
 
@@ -147,25 +289,39 @@ def login_view(request):
         return render(request, 'login.html', context)
 
 def productCategoryFullwidth(request):
-    context = get_base_context(request)
+    context = {
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'product-category-fullwidth.html', context)
 
 def product(request, name):
-    context = get_base_context(request)
     product_obj = Products.objects.filter(name=name).first()
-    context['product'] = product_obj
-    context['related_products'] = Products.objects.all()[:6]
+    related_products = get_cached_products(6)
+    
+    context = {
+        'product': product_obj,
+        'related_products': related_products,
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'product.html', context)
 
 def wishlist(request):
     return redirect('notfound')
-    context = get_base_context(request)
+    products = []
     if request.user.is_authenticated:
         wishlist_obj, _ = WishList.objects.get_or_create(user=request.user)
+        products = wishlist_obj.product.all()
     else:
         wishlist_obj, _ = WishList.objects.get_or_create(user=None)
+        products = wishlist_obj.product.all()
     
-    context['products'] = wishlist_obj.product.all()
+    context = {
+        'products': products,
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'wishlist.html', context)
     
 
@@ -285,9 +441,13 @@ def place_order(request):
 def order_detail(request, order_number):
     """Display order details"""
     order = get_object_or_404(Order, order_number=order_number, user=request.user)
-    context = get_base_context(request)
-    context['order'] = order
-    context['order_products'] = order.product.all()
+    order_products = order.product.all()
+    context = {
+        'order': order,
+        'order_products': order_products,
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'order_detail.html', context)
 
 def remove_from_checkout(request, name):
@@ -307,7 +467,10 @@ def delete_checkout(request):
 
 
 def search_product(request):
-    context = get_base_context(request)
+    context = {
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     
     if request.method == "GET":
         form = SearchForm(request.GET)
@@ -324,19 +487,23 @@ def search_product(request):
 @user_is_superuser_or_staff
 def edit_product(request, pk):
     product = get_object_or_404(Products, pk=pk)
-    context = get_base_context(request)
+    context = {
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+        'product': product,
+    }
     
     if request.method == 'POST':
         form = ProductEditForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
+            clear_cache()  # Clear cache after product modification
             messages.success(request, f'{product.name} edited successfully')
             return redirect('/home/')
     else:
         form = ProductEditForm(instance=product)
     
     context['form'] = form
-    context['product'] = product
     return render(request, 'product_edit.html', context)
 
 def checkout_test(request):
@@ -344,14 +511,20 @@ def checkout_test(request):
 
 
 def samoHomeView(request):
-    context = get_base_context(request)
+    context = {
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'index-11.html', context)
 
 
 @user_is_superuser_or_staff
 def listProducts(request):
-    context = get_base_context(request)
-    context['products'] = Products.objects.all()
+    context = {
+        'products': get_cached_products(),
+        'categories': get_cached_categories(),
+        'default_image': get_cached_default_image(),
+    }
     return render(request, 'listproducts.html', context)
 
 
@@ -362,6 +535,7 @@ def disableWoutPic(request):
         if not item.image:
             item.active = False
             item.save()
+    clear_cache()  # Clear cache after bulk product modification
     return redirect('/home/')
 
 @user_is_superuser_or_staff
@@ -371,4 +545,5 @@ def populateWithStock(request):
         if item.quantity_in_stock <= 0:
             item.quantity_in_stock = 5
             item.save()
+    clear_cache()  # Clear cache after bulk product modification
     return redirect('/home/')

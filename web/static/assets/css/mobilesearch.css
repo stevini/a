@@ -1,0 +1,43 @@
+/* Mobile Search Bar Styles */
+.mobile-search-container {
+  display: none; /* Hidden by default */
+  background-color: #f8f9fa;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.mobile-search-form {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+}
+
+.mobile-search-form .form-control {
+  flex: 1;
+  border-radius: 25px 0 0 25px;
+  border: 1px solid #ddd;
+  border-right: none;
+  padding: 8px 15px;
+  font-size: 14px;
+}
+
+.mobile-search-form .btn {
+  border-radius: 0 25px 25px 0;
+  border: 1px solid #ddd;
+  border-left: none;
+  padding: 8px 15px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.mobile-search-form .btn:hover {
+  background-color: #0056b3;
+}
+
+/* Show on mobile */
+@media (max-width: 767px) {
+  .mobile-search-container {
+    display: block;
+  }
+}

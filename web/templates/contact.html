@@ -28,6 +28,7 @@
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/bottombarstyles.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/mobilesearch.css' %}">
 </head>
 
 <body>
@@ -170,6 +171,7 @@
                 </div><!-- End .container -->
             </div><!-- End .header-middle -->
         </header><!-- End .header -->
+        {% include 'mobilesearchbar.html' %}
 
         <main class="main">
             <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
