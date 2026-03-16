@@ -29,6 +29,8 @@
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/bottombarstyles.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/mobilesearch.css' %}">
+    <!-- Loading Spinner CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/loading-spinner.css' %}">
 </head>
 
 <body>
@@ -199,7 +201,7 @@
 							<div class="tab-content">
 							    <div class="tab-pane fade" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
                                         
-							    	<form action="/login/" method="post">
+							    	<form action="/login/" method="post" class="show-loading-overlay">
                                     {% csrf_token %}
                                         <div class="form-group">                                        
                                         {% if messages %}
@@ -260,7 +262,7 @@
 							    </div><!-- .End .tab-pane -->
 							    <div class="tab-pane fade show active" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
 
-							    	<form action="/login/" method="post">
+							    	<form action="/login/" method="post" class="show-loading-overlay">
                                     {% csrf_token %}
                                         <div class="form-group">
 							    			<label for="register-email-2">Username *</label>
@@ -607,7 +609,10 @@
     <script src="{% static 'assets/js/bootstrap-input-spinner.js' %}"></script>
     <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
     <!-- Main JS File -->
-    <script src="{% static 'assets/js/bottombar.js' %}"></script><script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/bottombar.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <!-- Loading Spinner JS -->
+    <script src="{% static 'assets/js/loading-spinner.js' %}"></script>
 </body>
 </body>
 
