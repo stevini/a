@@ -112,6 +112,7 @@ def cart(request):
         'products': products,
         'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
+        'total': cart_obj.subtotals()
     }
     return render(request, 'cart.html', context)
 
@@ -130,7 +131,7 @@ def category_view(request):
     }
     return render(request, 'basecategory.html', context)
 
-@cache_page(60 * 15)
+#@cache_page(60 * 5)
 def category(request, name):
     cat = Category.objects.filter(name=name).first()
     products = Products.objects.filter(category=cat) if cat else Products.objects.none()
@@ -147,6 +148,7 @@ def category(request, name):
         'categories': get_cached_categories(),
         'category_products': category_products,
         'default_image': get_cached_default_image(),
+        'form': AddToCart(request.POST)
     }
     return render(request, 'category.html', context)
 
@@ -224,8 +226,8 @@ def index13(request):
         'search': SearchForm(request.GET),
         'cartform': AddToCart(request.GET),
         'cart': cart,
-        'categories': get_cached_categories(),
-        'categories_featured': get_cached_featured_categories(),
+        'categories': get_cached_categories()[:6],
+        'categories_featured': get_cached_featured_categories()[:6],
         'default_image': get_cached_default_image(),
     }
     return render(request, 'index-13.html', context)
