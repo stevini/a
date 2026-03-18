@@ -292,8 +292,9 @@ def product(request, name):
     context = {
         'product': product_obj,
         'related_products': related_products,
-        #   'categories': get_cached_categories(),
+        #'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
+        'form': AddToCart(request.POST),
     }
     return render(request, 'product.html', context)
 
