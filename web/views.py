@@ -87,14 +87,12 @@ def clear_cache():
 
 def view404(request):
     context = {
-        'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
     }
     return render(request, '404.html', context)
 
 def about(request):
     context = {
-        'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
     }
     return render(request, 'about.html', context)
@@ -110,7 +108,6 @@ def cart(request):
     context = {
         'cart': cart_obj,
         'products': products,
-        'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
         'total': cart_obj.subtotals()
     }
@@ -161,21 +158,18 @@ def checkout(request):
     context = {
         'products': products,
         'subs': subs,
-        'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
     }
     return render(request, 'checkout.html', context)
 
 def comingSoon(request):
     context = {
-        'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
     }
     return render(request, 'coming-soon.html', context)
 
 def contact(request):
     context = {
-        'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
     }
     return render(request, 'contact.html', context)
@@ -209,7 +203,6 @@ def dashboard(request):
         'orders': orders,
         'last_shipping_address': last_order.shipping_address if last_order else None,
         'last_phone_number': last_order.phone_number if last_order else None,
-        'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
     }
     return render(request, 'dashboard.html', context)
@@ -233,15 +226,10 @@ def index13(request):
     return render(request, 'index-13.html', context)
 
 def index(request):
-    context = {
-        'categories': get_cached_categories(),
-        'default_image': get_cached_default_image(),
-    }
-    return render(request, 'index.html', context)
+    return render(request, 'index.html')
 
 def login_view(request):
     context = {
-        'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
     }
     
@@ -293,7 +281,6 @@ def login_view(request):
 
 def productCategoryFullwidth(request):
     context = {
-        'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
     }
     return render(request, 'product-category-fullwidth.html', context)
@@ -305,7 +292,7 @@ def product(request, name):
     context = {
         'product': product_obj,
         'related_products': related_products,
-        'categories': get_cached_categories(),
+        #   'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
     }
     return render(request, 'product.html', context)
@@ -479,7 +466,7 @@ def search_product(request):
         form = SearchForm(request.GET)
         if form.is_valid():
             name = form.cleaned_data['search']
-            context["products"] = Products.objects.filter(name__icontains=name)
+            context["product"] = Products.objects.filter(name__icontains=name)
     else:
         form = SearchForm()
 
@@ -511,14 +498,6 @@ def edit_product(request, pk):
 
 def checkout_test(request):
     return stk_push_success(request)
-
-
-def samoHomeView(request):
-    context = {
-        'categories': get_cached_categories(),
-        'default_image': get_cached_default_image(),
-    }
-    return render(request, 'index-11.html', context)
 
 
 @user_is_superuser_or_staff

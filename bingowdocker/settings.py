@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
 from pathlib import Path
 from decouple import config, Csv
 
@@ -162,3 +161,6 @@ CACHES = {
 
 # Cache timeout in seconds (1 hour = 3600)
 CACHE_MIDDLEWARE_SECONDS = 3600
+
+
+print('----- ssup -----')

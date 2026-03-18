@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from .api_views import *
+from django_daraja.views import stk_push_success
 
 
 urlpatterns = [
@@ -53,4 +54,6 @@ urlpatterns = [
     #path('api/wishlist/', WishListAPIView.as_view(), name='wishlist'),
     path('api/addtowishlist/', AddToWishListAPIView.as_view(), name='add-to-wishlist'),
     path('api/remove/fromwishlist/', RemoveFromWishListAPIView.as_view(), name='remove-from-wishlist'),
+
+    path('success/', stk_push_success, name='success'),
 ]
