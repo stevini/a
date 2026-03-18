@@ -132,6 +132,7 @@ def category_view(request):
 def category(request, name):
     cat = Category.objects.filter(name=name).first()
     products = Products.objects.filter(category=cat) if cat else Products.objects.none()
+    products = products.filter(active=True)  # Show only active products in category view
     
     # Build category products mapping
     countable_categories = get_cached_countable_categories()
