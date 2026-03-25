@@ -67,7 +67,7 @@
                                 <a href="#">Links</a>
                                 <ul>
                                     <li><a href="tel:#"><i class="icon-phone"></i>Call: + 254 0716551972</a></li>
-                                    <li><a href="/wishlist/"><i class="icon-heart-o"></i>Wishlist <span>(3)</span></a></li>
+                                    
                                     <li><a href="/about/">About Us</a></li>
                                     <li><a href="/contact/">Contact Us</a></li>
                                     <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
@@ -129,7 +129,7 @@
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">2</span>
+                                <span class="cart-count">{{ cart.product.count|default:0 }}</span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
@@ -408,9 +408,9 @@
         <div class="mobile-menu-wrapper">
             <span class="mobile-menu-close"><i class="icon-close"></i></span>
 
-            <form action="#" method="get" class="mobile-search">
+            <form action="/search/" method="get" class="mobile-search">{% csrf_token %}
                 <label for="mobile-search" class="sr-only">Search</label>
-                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+               {{mobile_search.search}}
                 <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
             </form>
             

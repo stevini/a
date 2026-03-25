@@ -133,7 +133,7 @@
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">2</span>
+                                <span class="cart-count">{{ cart.product.count|default:0 }}</span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
@@ -182,7 +182,7 @@
         <main class="main">
         	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
         		<div class="container">
-        			<h1 class="page-title">Grid 3 Columns<span>Shop</span></h1>
+        			<h1 class="page-title">Categories <span>{{current_category.name}}</span></h1>
         		</div><!-- End .container -->
         	</div><!-- End .page-header -->
             <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
@@ -190,7 +190,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/home/">Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Grid 3 Columns</li>
+                        <li class="breadcrumb-item active" aria-current="page">Categories</li>
                     </ol>
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
@@ -199,7 +199,7 @@
                 <div class="container">
                 	<div class="row">
                 		<div class="col-lg-9">
-                			<div class="toolbox">
+                			<div class="toolbox d-none">
                 				<div class="toolbox-left">
                 					<div class="toolbox-info">
                 						Showing <span>{{item.count}} of {{item.count}}</span> Products
@@ -269,16 +269,10 @@
                                     <div class="col-6 col-md-4 col-lg-4">
                                         <div class="product product-7 text-center">
                                             <figure class="product-media">
-                                                <span class="product-label label-new">New</span>
+                                                <span class="product-label label-new d-none">New</span>
                                                 <a href="/product/{{item}}/">
                                                     <img src="{% if item.image %} {{item.image.url}} {% else %} {{default_image.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{item.name}} image" class="product-image">
                                                 </a>
-
-                                                <div class="product-action-vertical">
-                                                    <a href="/addwishlist/{{item.name}}/" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                                    
-                                                    
-                                                </div><!-- End .product-action-vertical -->
 
                                                 <div class="product-action">
                                                     <!--a href="/add/{{item.name}}/"  class="btn-product btn-cart"><span>add to cart</span></a-->
@@ -643,9 +637,9 @@
         <div class="mobile-menu-wrapper">
             <span class="mobile-menu-close"><i class="icon-close"></i></span>
 
-            <form action="#" method="get" class="mobile-search">
+            <form action="/search/" method="get" class="mobile-search">{% csrf_token %}
                 <label for="mobile-search" class="sr-only">Search</label>
-                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+               {{mobile_search.search}}
                 <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
             </form>
             
@@ -660,9 +654,7 @@
                             <li>
                                 <a href="/cart/" class="">Cart</a>
                             </li>
-                            <li>
-                                <!--a href="/wishlist/" class="">wishlist</a-->
-                            </li>
+
                             <li>
                                 <a href="/checkout/" class="">Checkout</a>
                             </li>

@@ -35,6 +35,13 @@ class SearchForm(forms.Form):
         required=True
     )
 
+class MobileSearchForm(forms.Form):
+    search = forms.CharField(
+        label='Search',
+        widget=forms.TextInput(attrs={'type': 'search', 'class': 'form-control', 'placeholder': 'Search product ...', 'name':'mobile-search','id':'mobile-search', 'for': 'mobile-search'}),
+        required=True
+    )
+
 class ProductEditForm(forms.ModelForm):
     name = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control',})

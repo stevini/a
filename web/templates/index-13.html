@@ -121,36 +121,6 @@
 
                     <div class="header-right">
                         <div class="header-dropdown-link">
-                            <div class="dropdown compare-dropdown">
-                                <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static" title="Compare Products" aria-label="Compare Products">
-                                    <i class="icon-random"></i>
-                                    <span class="compare-txt">Compare</span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <ul class="compare-products">
-                                        <li class="compare-product">
-                                            <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                            <h4 class="compare-product-title"><a href="/product/">Blue Night Dress</a></h4>
-                                        </li>
-                                        <li class="compare-product">
-                                            <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                            <h4 class="compare-product-title"><a href="/product/">White Long Skirt</a></h4>
-                                        </li>
-                                    </ul>
-
-                                    <div class="compare-actions">
-                                        <a href="#" class="action-link">Clear All</a>
-                                        <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i class="icon-long-arrow-right"></i></a>
-                                    </div>
-                                </div><!-- End .dropdown-menu -->
-                            </div><!-- End .compare-dropdown -->
-
-                            <a href="/wishlist/" class="wishlist-link">
-                                <i class="icon-heart-o"></i>
-                                <span class="wishlist-count">3</span>
-                                <span class="wishlist-txt">Wishlist</span>
-                            </a>
 
                             <div class="dropdown cart-dropdown">
                                 <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
@@ -294,9 +264,6 @@
                                 </li>
                                 <li>
                                     <a href="/cart/" class="">Cart</a>
-                                </li>
-                                <li>
-                                    <!--a href="/wishlist/" class="">wishlist</a-->
                                 </li>
                                 <li>
                                     <a href="/checkout/" class="">Checkout</a>
@@ -525,16 +492,9 @@
                                 {% if product.image and product.active %}
                                 <div class="product">
                                     <figure class="product-media">
-                                    <!--span class="product-label label-sale">Sale</span-->
                                         <a href="/product/{{product.name}}/">
                                             <img src="{% if product.image %} {{product.image.url}} {% else %} {{defaultimage.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" class="product-image">
                                         </a>
-
-                                        <div class="product-action-vertical">
-                                            <a href="/addwishlist/{{product.name}}/" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                            
-                                            
-                                        </div><!-- End .product-action-vertical -->
 
                                         <div class="product-action">
                                             <!-- Button trigger modal -->
@@ -590,16 +550,9 @@
                                 {% if product.image and product.active %}
                                 <div class="product">
                                     <figure class="product-media">
-                                        <span class="product-label label-sale">Sale</span>
                                         <a href="/product/{{product.name}}/">
                                             <img src="{% if product.image %} {{product.image.url}} {% else %} {{defaultimage.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" class="product-image">
                                         </a>
-
-                                        <div class="product-action-vertical">
-                                            <a href="/addwishlist/{{product.name}}/" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                            
-                                            
-                                        </div><!-- End .product-action-vertical -->
 
                                         <div class="product-action">
                                             <!-- Button trigger modal -->
@@ -720,11 +673,6 @@
                                     <a href="/product/{{product}}/">
                                         <img src="{% if product.image %} {{product.image.url}} {% else %} {{default_image.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" class="product-image">
                                     </a>
-
-                                    <div class="product-action-vertical">
-                                     
-                                        <a href="/addwishlist/{{product.name}}/" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                    </div><!-- End .product-action-vertical -->
 
                                     <div class="product-action">
                                         <!-- Button trigger modal -->
@@ -916,9 +864,9 @@
         <div class="mobile-menu-wrapper">
             <span class="mobile-menu-close"><i class="icon-close"></i></span>
             
-            <form action="#" method="get" class="mobile-search">
+            <form action="/search/" method="get" class="mobile-search">{% csrf_token %}
                 <label for="mobile-search" class="sr-only">Search</label>
-                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+               {{mobile_search.search}}
                 <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
             </form>
 
@@ -944,9 +892,7 @@
                             <li>
                                 <a href="/cart/" class="">Cart</a>
                             </li>
-                            <li>
-                                <!--a href="/wishlist/" class="">wishlist</a-->
-                            </li>
+
                             <li>
                                 <a href="/checkout/" class="">Checkout</a>
                             </li>

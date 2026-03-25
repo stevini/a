@@ -12,7 +12,7 @@ class DefaultImages(models.Model):
     def img(self):
         return self.image
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
     image = models.ImageField(upload_to='default_images/')
 
@@ -40,7 +40,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    name = models.CharField(max_length=100, null=True)
+    name = models.CharField(max_length=100, null=True, unique=True)
     quantity = models.IntegerField(null=True)
     product = models.ManyToManyField(Products)
 

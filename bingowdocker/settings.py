@@ -68,7 +68,6 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'web/templates/secondary/templates',
-            BASE_DIR / 'web/templates/samosafinest'
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -91,9 +90,15 @@ WSGI_APPLICATION = 'bingowdocker.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'bingowdocker/db/db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': f'{BASE_DIR}/db.cnf',
+        },
+    },
+    #"old": {
+     #   "ENGINE": "django.db.backends.sqlite3",
+      #  "NAME": BASE_DIR / "bingowdocker/db/db.sqlite3",
+    #},
 }
 
 
@@ -161,6 +166,5 @@ CACHES = {
 
 # Cache timeout in seconds (1 hour = 3600)
 CACHE_MIDDLEWARE_SECONDS = 3600
-
 
 print('----- ssup -----')

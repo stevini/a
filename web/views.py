@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, logout, login
 from django.contrib import messages
-from .forms import CustomUserCreationForm, CustomLoginForm, SearchForm, ProductEditForm, AddToCart, ProfileForm, UserDetailsForm, ShippingAddressForm
+from .forms import CustomUserCreationForm, CustomLoginForm, MobileSearchForm, SearchForm, ProductEditForm, AddToCart, ProfileForm, UserDetailsForm, ShippingAddressForm
 from django.contrib.auth.decorators import login_required
 from . models import Category, Products, Cart, WishList, Checkout, User, Profile, Order, DefaultImages
 from web.utils.login import user_is_superuser_or_staff
@@ -88,12 +88,14 @@ def clear_cache():
 def view404(request):
     context = {
         'default_image': get_cached_default_image(),
+        'mobile_search': MobileSearchForm(request.GET),
     }
     return render(request, '404.html', context)
 
 def about(request):
     context = {
         'default_image': get_cached_default_image(),
+        'mobile_search': MobileSearchForm(request.GET),
     }
     return render(request, 'about.html', context)
 
@@ -109,7 +111,8 @@ def cart(request):
         'cart': cart_obj,
         'products': products,
         'default_image': get_cached_default_image(),
-        'total': cart_obj.subtotals()
+        'total': cart_obj.subtotals(),
+        'mobile_search': MobileSearchForm(request.GET),
     }
     return render(request, 'cart.html', context)
 
@@ -125,6 +128,7 @@ def category_view(request):
         'categories': get_cached_categories(),
         'category_products': category_products,
         'default_image': get_cached_default_image(),
+        'mobile_search': MobileSearchForm(request.GET),
     }
     return render(request, 'basecategory.html', context)
 
@@ -146,7 +150,8 @@ def category(request, name):
         'categories': get_cached_categories(),
         'category_products': category_products,
         'default_image': get_cached_default_image(),
-        'form': AddToCart(request.POST)
+        'form': AddToCart(request.POST),
+        'mobile_search': MobileSearchForm(request.GET),
     }
     return render(request, 'category.html', context)
 
@@ -160,18 +165,21 @@ def checkout(request):
         'products': products,
         'subs': subs,
         'default_image': get_cached_default_image(),
+        'mobile_search': MobileSearchForm(request.GET),
     }
     return render(request, 'checkout.html', context)
 
 def comingSoon(request):
     context = {
         'default_image': get_cached_default_image(),
+        'mobile_search': MobileSearchForm(request.GET),
     }
     return render(request, 'coming-soon.html', context)
 
 def contact(request):
     context = {
         'default_image': get_cached_default_image(),
+        'mobile_search': MobileSearchForm(request.GET),
     }
     return render(request, 'contact.html', context)
 
@@ -205,6 +213,7 @@ def dashboard(request):
         'last_shipping_address': last_order.shipping_address if last_order else None,
         'last_phone_number': last_order.phone_number if last_order else None,
         'default_image': get_cached_default_image(),
+        'mobile_search': MobileSearchForm(request.GET),
     }
     return render(request, 'dashboard.html', context)
 
@@ -218,9 +227,10 @@ def index13(request):
     context = {
         'products': get_cached_products(6),
         'search': SearchForm(request.GET),
+        'mobile_search': MobileSearchForm(request.GET),
         'cartform': AddToCart(request.GET),
         'cart': cart,
-        'categories': get_cached_categories()[:6],
+        'categories': get_cached_categories()[:3],
         'categories_featured': get_cached_featured_categories()[:6],
         'default_image': get_cached_default_image(),
     }
@@ -232,6 +242,7 @@ def index(request):
 def login_view(request):
     context = {
         'default_image': get_cached_default_image(),
+        'mobile_search': MobileSearchForm(request.GET),
     }
     
     creation_form = CustomUserCreationForm()
@@ -283,6 +294,7 @@ def login_view(request):
 def productCategoryFullwidth(request):
     context = {
         'default_image': get_cached_default_image(),
+        'mobile_search': MobileSearchForm(request.GET),
     }
     return render(request, 'product-category-fullwidth.html', context)
 
@@ -293,9 +305,10 @@ def product(request, name):
     context = {
         'product': product_obj,
         'related_products': related_products,
-        #'categories': get_cached_categories(),
+        'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
         'form': AddToCart(request.POST),
+        'mobile_search': MobileSearchForm(request.GET),
     }
     return render(request, 'product.html', context)
 
@@ -363,6 +376,7 @@ def remove_from_cart(request, name):
     return redirect('/cart/') 
 
 def add_to_wishlist(request, name):
+    return redirect('notfound')
     product = Products.objects.get(name=name)
     if request.user.is_authenticated:
         wishlist, _ = WishList.objects.get_or_create(user=request.user)
@@ -462,13 +476,18 @@ def search_product(request):
     context = {
         'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
+        'mobile_search': MobileSearchForm(request.GET),
+        'cartform': AddToCart(request.GET)
     }
     
     if request.method == "GET":
         form = SearchForm(request.GET)
         if form.is_valid():
             name = form.cleaned_data['search']
-            context["product"] = Products.objects.filter(name__icontains=name)
+            mb = MobileSearchForm(request.GET).data['search']
+            context["product"] = Products.objects.filter(name__icontains=name, active=True)
+            context["mb"] = mb
+            context["name"] = name
     else:
         form = SearchForm()
 
@@ -483,6 +502,7 @@ def edit_product(request, pk):
         'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
         'product': product,
+        'mobile_search': MobileSearchForm(request.GET),
     }
     
     if request.method == 'POST':
@@ -508,6 +528,7 @@ def listProducts(request):
         'products': get_cached_products(),
         'categories': get_cached_categories(),
         'default_image': get_cached_default_image(),
+        'mobile_search': MobileSearchForm(request.GET),
     }
     return render(request, 'listproducts.html', context)
 

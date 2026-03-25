@@ -132,7 +132,7 @@
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">2</span>
+                                <span class="cart-count">{{ cart.product.count|default:0 }}</span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
@@ -209,30 +209,8 @@
                                 <div class="product-gallery product-gallery-vertical">
                                     <div class="row">
                                         <figure class="product-main-image">
-                                            <img src="{% if product.image %} {{product.image.url}} {% else %} {{default_image.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" id="product-zoom" data-zoom-image="">
-
-                                            <a href="#" id="btn-product-gallery" class="btn-product-gallery d-none">
-                                                <i class="icon-arrows"></i>
-                                            </a>
-                                        </figure><!-- End .product-main-image -->
-
-                                        <div id="product-zoom-gallery" class="product-image-gallery d-none">
-                                            <a class="product-gallery-item active" href="#" data-image="{% static 'assets/images/products/single/1.jpg' %}" data-zoom-image="{% static 'assets/images/products/single/1-big.jpg' %}">
-                                                <img src="{% static 'assets/images/products/single/1-small.jpg' %}" alt="product side">
-                                            </a>
-
-                                            <a class="product-gallery-item" href="#" data-image="{% static 'assets/images/products/single/2.jpg' %}" data-zoom-image="{% static 'assets/images/products/single/2-big.jpg' %}">
-                                                <img src="{% static 'assets/images/products/single/2-small.jpg' %}" alt="product cross">
-                                            </a>
-
-                                            <a class="product-gallery-item" href="#" data-image="{% static 'assets/images/products/single/3.jpg' %}" data-zoom-image="{% static 'assets/images/products/single/3-big.jpg' %}">
-                                                <img src="{% static 'assets/images/products/single/3-small.jpg' %}" alt="product with model">
-                                            </a>
-
-                                            <a class="product-gallery-item" href="#" data-image="{% static 'assets/images/products/single/4.jpg' %}" data-zoom-image="{% static 'assets/images/products/single/4-big.jpg' %}">
-                                                <img src="{% static 'assets/images/products/single/4-small.jpg' %}" alt="product back">
-                                            </a>
-                                        </div><!-- End .product-image-gallery -->
+                                            <img src="{% if product.image %} {{product.image.url}} {% else %} {{default_image.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image">
+                                        </figure><!-- End .product-main-image -->   
                                     </div><!-- End .row -->
                                 </div><!-- End .product-gallery -->
                             </div><!-- End .col-md-6 -->
@@ -382,16 +360,10 @@
                         {% for item in related_products %}
                         <div class="product product-7 text-center">
                             <figure class="product-media">
-                                <span class="product-label label-new">New</span>
+                                <span class="product-label label-new d-none">New</span>
                                 <a href="/product/{{item}}/">
                                     <img src="{% if item.image %} {{item.image.url}} {% else %} {{default_image.image.url|default:'/static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{item.name}} image" class="product-image">
                                 </a>
-
-                                <div class="product-action-vertical">
-                                    <a href="/addwishlist/{{item.name}}/" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                    
-                                    
-                                </div><!-- End .product-action-vertical -->
 
                                 <div class="product-action">
                                     <a href="/add/{{item.name}}/"  class="btn-product btn-cart"><span>add to cart</span></a>
@@ -551,9 +523,9 @@
         <div class="mobile-menu-wrapper">
             <span class="mobile-menu-close"><i class="icon-close"></i></span>
 
-            <form action="#" method="get" class="mobile-search">
+            <form action="/search/" method="get" class="mobile-search">{% csrf_token %}
                 <label for="mobile-search" class="sr-only">Search</label>
-                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+               {{mobile_search.search}}
                 <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
             </form>
             
@@ -568,9 +540,7 @@
                             <li>
                                 <a href="/cart/" class="">Cart</a>
                             </li>
-                            <li>
-                                <!--a href="/wishlist/" class="">wishlist</a-->
-                            </li>
+
                             <li>
                                 <a href="/checkout/" class="">Checkout</a>
                             </li>

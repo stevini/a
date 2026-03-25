@@ -131,7 +131,7 @@
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">2</span>
+                                <span class="cart-count">{{ cart.product.count|default:0 }}</span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
@@ -179,7 +179,7 @@
         <main class="main">
         	<div class="page-header text-center" style="background-image: url('{% static 'assets/images/page-header-bg.jpg' %})">
         		<div class="container">
-        			<h1 class="page-title">Boxed No Sidebar<span>Shop</span></h1>
+        			{% if mobile_search %}<h1 class="page-title">Found <small>{{product.count}}</small> items<span>with name "{{mb}}"</span></h1>{% elif search %}<h1 class="page-title">Found <small>{{product.count}}</small> items<span>with name "{{name}}"</span></h1>{% endif %}
         		</div><!-- End .container -->
         	</div><!-- End .page-header -->
             <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
@@ -187,15 +187,19 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/home/">Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                        <li class="breadcrumb-item"><a href="#">No Sidebar</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Boxed</li>
+                        <li class="breadcrumb-item"><a href="#">Search</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{% if mobile_search %}
+                        "{{mb}}"
+                        {% elif search %}
+                        "{{name}}"
+                        {% endif %}</li>
                     </ol>
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
 
             <div class="page-content">
                 <div class="container">
-        			<div class="toolbox">
+        			<div class="toolbox d-none">
         				<div class="toolbox-left">
                             <a href="#" class="sidebar-toggler"><i class="icon-bars"></i>Filters</a>
         				</div><!-- End .toolbox-left -->
@@ -226,19 +230,15 @@
                             <div class="col-6 col-md-4 col-lg-4 col-xl-3">
                                 <div class="product">
                                     <figure class="product-media">
-                                        <span class="product-label label-new">New</span>
+                                        <span class="product-label label-new d-none">New</span>
                                         <a href="/product/{{item.name}}/">
                                             <img src="{% if item.image %}{{item.image.url}}{% else %}{{default_image.image.url|default:'/static/web/static/assets/images/demos/demo-13/products/default.jpeg'}}{% endif %}" alt="{{Product.name}} image" class="product-image">
                                         </a>
 
-                                        <div class="product-action-vertical">
-                                            <a href="/addwishlist/{{item.name}}/" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
-                                        </div><!-- End .product-action -->
-
                                         <div class="product-action action-icon-top">
-                                            <a href="/add/{{item.name}}/"  class="btn-product btn-cart"><span>add to cart</span></a>
-                                            <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
-                                            <a href="#" class="btn-product btn-compare" title="Compare"><span>compare</span></a>
+                                            <button type="button" class="btn-product btn-cart" data-toggle="modal" data-target="#exampleModalCenter"data-name="{{item.name}}" data-price="{{item.sellp}}" data-image="{{item.image.url}}" title="Add to cart">
+                                                <span>add to cart</span>
+                                            </button>
                                         </div><!-- End .product-action -->
                                     </figure><!-- End .product-media -->
 
@@ -610,9 +610,9 @@
         <div class="mobile-menu-wrapper">
             <span class="mobile-menu-close"><i class="icon-close"></i></span>
 
-            <form action="#" method="get" class="mobile-search">
+            <form action="/search/" method="get" class="mobile-search">{% csrf_token %}
                 <label for="mobile-search" class="sr-only">Search</label>
-                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+               {{mobile_search.search}}
                 <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
             </form>
             
@@ -627,9 +627,7 @@
                             <li>
                                 <a href="/cart/" class="">Cart</a>
                             </li>
-                            <li>
-                                <!--a href="/wishlist/" class="">wishlist</a-->
-                            </li>
+
                             <li>
                                 <a href="/checkout/" class="">Checkout</a>
                             </li>
@@ -762,6 +760,34 @@
         </div><!-- End .modal-dialog -->
     </div><!-- End .modal -->
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action='' method='GET'>
+            {% csrf_token %}
+            <div style='background-image : url("")'>
+            </div>
+            <div class='p-5'>
+                {{cartform.as_p}}
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-secondary">Add to cart</button>
+        </div>
+        </div>
+        </form>
+    </div>
+    </div>
+
     <!-- Bottom Bar for Mobile -->
     <div class="bottom-bar">
         <a href="/home" class="bottom-item">
@@ -793,6 +819,19 @@
     <script src="{% static 'assets/js/bootstrap-input-spinner.js' %}"></script>
     <script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
     <script src="{% static 'assets/js/nouislider.min.js' %}"></script>
+    <script>$('#exampleModalCenter').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var name = button.data('name');
+        var price = button.data('price');
+        var image = button.data('image');
+
+        var modal = $(this);
+        modal.find('form').attr('action', '/add/'+name+'/');
+        modal.find('.modal-title').text(name);
+        modal.find('.modal-body img').attr('src', image);
+        modal.find('.modal-body .price').text('Ksh ' + price);
+        });
+    </script>
     <!-- Main JS File -->
     <script src="{% static 'assets/js/bottombar.js' %}">
     </script><script src="{% static 'assets/js/main.js' %}"></script>
