@@ -93,12 +93,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
             'read_default_file': f'{BASE_DIR}/db.cnf',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,ONLY_FULL_GROUP_BY'",
         },
     },
-    #"old": {
-     #   "ENGINE": "django.db.backends.sqlite3",
-      #  "NAME": BASE_DIR / "bingowdocker/db/db.sqlite3",
-    #},
+    "old": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "bingowdocker/db/db.sqlite3",
+    },
 }
 
 
