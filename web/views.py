@@ -9,15 +9,22 @@ from django_daraja.views import stk_push_success
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from django.db.models import Count
+import random
 
 
 def get_cached_categories():
-    """Get cached categories list."""
+    """Get cached categories list that rotate every 30 minutes."""
     cache_key = 'categories'
     categories = cache.get(cache_key)
+
     if categories is None:
-        categories = list(Category.objects.all())
-        cache.set(cache_key, categories, 3600)
+        all_categories = list(Category.objects.all())
+        
+        # Randomly pick 6 categories
+        categories = random.sample(all_categories, min(6, len(all_categories)))
+        
+        # Cache for 30 minutes (1800 seconds)
+        cache.set(cache_key, categories, 1800)
     return categories
 
 
@@ -29,7 +36,6 @@ def get_cached_featured_categories():
         categories = list(Category.objects.all()[:6])
         cache.set(cache_key, categories, 3600)
     return categories
-
 
 def get_cached_countable_categories():
     """Get cached categories with product counts."""
@@ -230,7 +236,7 @@ def index13(request):
         'mobile_search': MobileSearchForm(request.GET),
         'cartform': AddToCart(request.GET),
         'cart': cart,
-        'categories': get_cached_categories()[:3],
+        'categories': get_cached_categories()[:5],
         'categories_featured': get_cached_featured_categories()[:6],
         'default_image': get_cached_default_image(),
     }
@@ -298,8 +304,8 @@ def productCategoryFullwidth(request):
     }
     return render(request, 'product-category-fullwidth.html', context)
 
-def product(request, name):
-    product_obj = Products.objects.filter(name=name).first()
+def product(request, slug):
+    product_obj = Products.objects.filter(slug=slug).first()
     related_products = get_cached_products(6)
     
     context = {
@@ -336,9 +342,9 @@ def user_logout(request):
     return redirect('/login/')
 
 @login_required
-def add_to_cart(request, name):
+def add_to_cart(request, slug):
     form = AddToCart(request.GET)
-    product = Products.objects.get(name=name)
+    product = Products.objects.get(slug=slug)
     cart = Cart.objects.get_or_create(user=request.user)
 
     if request.method == 'GET':
@@ -350,7 +356,7 @@ def add_to_cart(request, name):
                     messages.info(request, f"you already have this in your cart!")
                 else:
                     cart[0].product.add(product)
-                    cart_product = cart[0].product.filter(name=name).first()
+                    cart_product = cart[0].product.filter(slug=slug).first()
                     cart_product.order_amount = amount
                     cart_product.save()
                     messages.success(request, f"{product} added to cart!")
@@ -366,8 +372,8 @@ def update_cart_amount():
     # ToDo : add cart update logic
     pass
 
-def remove_from_cart(request, name):
-    product = Products.objects.get(name=name)
+def remove_from_cart(request, slug):
+    product = Products.objects.get(slug=slug)
     cart, _ = Cart.objects.get_or_create(user=request.user)
 
     cart.product.remove(product)
@@ -375,9 +381,9 @@ def remove_from_cart(request, name):
     messages.warning(request, f"{product} removed from cart!") 
     return redirect('/cart/') 
 
-def add_to_wishlist(request, name):
+def add_to_wishlist(request, slug):
     return redirect('notfound')
-    product = Products.objects.get(name=name)
+    product = Products.objects.get(slug=slug)
     if request.user.is_authenticated:
         wishlist, _ = WishList.objects.get_or_create(user=request.user)
     else:
@@ -388,8 +394,8 @@ def add_to_wishlist(request, name):
     messages.success(request, f"{product} added to wishlist!")
     return redirect('/home/')
 
-def remove_from_wishlist(request, name):
-    product = Products.objects.get(name=name)
+def remove_from_wishlist(request, slug):
+    product = Products.objects.get(slug=slug)
     wishlist, _ = WishList.objects.get_or_create(user=request.user if request.user.is_authenticated else None)
 
     wishlist.product.remove(product)
@@ -398,9 +404,9 @@ def remove_from_wishlist(request, name):
     return redirect('/wishlist/') 
 
 @login_required
-def cart_from_wishlist(request, name):
-    add_to_cart(request=request, name=name)
-    remove_from_wishlist(request=request, name=name)
+def cart_from_wishlist(request, slug):
+    add_to_cart(request=request, slug=slug)
+    remove_from_wishlist(request=request, slug=slug)
     return redirect('/cart/') 
 
 @login_required
@@ -456,9 +462,9 @@ def order_detail(request, order_number):
     }
     return render(request, 'order_detail.html', context)
 
-def remove_from_checkout(request, name):
+def remove_from_checkout(request, slug):
     checkout, _ = Checkout.objects.get_or_create(user=request.user)
-    product = Products.objects.filter(name=name).first()
+    product = Products.objects.filter(slug=slug).first()
     checkout.product.remove(product)
     checkout.save()
     messages.success(request, f'{product} removed from checkout')
@@ -552,3 +558,8 @@ def populateWithStock(request):
             item.save()
     clear_cache()  # Clear cache after bulk product modification
     return redirect('/home/')
+    
+    
+@user_is_superuser_or_staff
+def manage_order(request):
+    return render(request, 'order_management.html')

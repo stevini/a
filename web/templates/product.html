@@ -143,7 +143,7 @@
                                     <div class="product">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
-                                                <a href="/product/{{item.name}}/">{{item.name}}</a>
+                                                <a href="/product/{{item.slug}}/">{{item.name}}</a>
                                             </h4>
 
                                             <span class="cart-product-info">
@@ -153,11 +153,11 @@
                                         </div><!-- End .product-cart-details -->
 
                                         <figure class="product-image-container">
-                                            <a href="/product/{{item.name}}" class="product-image">
+                                            <a href="/product/{{item.slug}}" class="product-image">
                                                 <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">
                                             </a>
                                         </figure>
-                                        <a href="/remove/{{item.name}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        <a href="/remove/{{item.slug}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
                                     </div><!-- End .product -->
                                 {% endfor %}
                                 </div><!-- End .cart-product -->
@@ -232,39 +232,7 @@
                                         Ksh{{product.sellp}}
                                     </div><!-- End .product-price -->
 
-                                    <div class="product-content d-none">
-                                        <p>Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing. Sed lectus. </p>
-                                    </div><!-- End .product-content -->
-
-                                    <div class="details-filter-row details-row-size d-none">
-                                        <label>Color:</label>
-
-                                        <div class="product-nav product-nav-thumbs">
-                                            <a href="#" class="active">
-                                                <img src="{% static 'assets/images/products/single/1-thumb.jpg' %}" alt="product desc">
-                                            </a>
-                                            <a href="#">
-                                                <img src="{% static 'assets/images/products/single/2-thumb.jpg' %}" alt="product desc">
-                                            </a>
-                                        </div><!-- End .product-nav -->
-                                    </div><!-- End .details-filter-row -->
-
-                                    <div class="details-filter-row details-row-size d-none">
-                                        <label for="size">Size:</label>
-                                        <div class="select-custom">
-                                            <select name="size" id="size" class="form-control">
-                                                <option value="#" selected="selected">Select a size</option>
-                                                <option value="s">Small</option>
-                                                <option value="m">Medium</option>
-                                                <option value="l">Large</option>
-                                                <option value="xl">Extra Large</option>
-                                            </select>
-                                        </div><!-- End .select-custom -->
-
-                                        <a href="#" class="size-guide"><i class="icon-th-list"></i>size guide</a>
-                                    </div><!-- End .details-filter-row -->
-
-                                    <form action='/add/{{product.name}}/' method='GET'>
+                                    <form action='/add/{{product.slug}}' method='GET'>
                                     {% csrf_token %}
                                     <div class="details-filter-row details-row-size">
                                         <label for="qty">Qty:</label>
@@ -275,7 +243,7 @@
                                     </div><!-- End .details-filter-row -->
 
                                     <div class="product-details-action">
-                                        <!--a href="/add/{{product.name}}/"  class="btn-product btn-cart"><span>add to cart</span></a-->
+                                        <!--a href="/add/{{product.slug}}/"  class="btn-product btn-cart"><span>add to cart</span></a-->
                                         <button type='submit' class="btn-product btn-cart"><span>add to cart</span></button>
                                     </div><!-- End .product-details-action -->
                                     </form>
@@ -363,12 +331,12 @@
                         <div class="product product-7 text-center">
                             <figure class="product-media">
                                 <span class="product-label label-new d-none">New</span>
-                                <a href="/product/{{item}}/">
+                                <a href="/product/{{item.slug}}/">
                                     <img src="{% if item.image %} {{item.image.url}} {% else %} {{default_image.image.url|default:'/static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{item.name}} image" class="product-image">
                                 </a>
 
                                 <div class="product-action">
-                                    <a href="/add/{{item.name}}/"  class="btn-product btn-cart"><span>add to cart</span></a>
+                                    <a href="/add/{{item.slug}}/"  class="btn-product btn-cart"><span>add to cart</span></a>
                                 </div><!-- End .product-action -->
                             </figure><!-- End .product-media -->
 
@@ -376,7 +344,7 @@
                                 <div class="product-cat">
                                     <a href="#">{{item.category}}</a>
                                 </div><!-- End .product-cat -->
-                                <h3 class="product-title"><a href="/product/{{item}}/">{{item}}</a></h3><!-- End .product-title -->
+                                <h3 class="product-title"><a href="/product/{{item.slug}}/">{{item}}</a></h3><!-- End .product-title -->
                                 <div class="product-price">
                                     Ksh{{item.sellp}}
                                 </div><!-- End .product-price -->
@@ -509,14 +477,14 @@
                             <img src="/static/assets/images/demos/demo-13/products/product-{{product.id}}.jpg" alt="Product image">
                         </a>
                     </figure><!-- End .product-media -->
-                    <h4 class="product-title"><a href="/product/">{{product}}</a></h4><!-- End .product-title -->
+                    <h4 class="product-title"><a href="/product/{{product.slug}}">{{product}}</a></h4><!-- End .product-title -->
                 </div><!-- End .col-6 -->
 
                 <div class="col-6 justify-content-end">
                     <div class="product-price">
                         Ksh{{product.sellp}}
                     </div><!-- End .product-price -->
-                    <form action="/add/{{product.name}}/" method="GET">
+                    <form action="/add/{{product.slug}}/" method="GET">
                     {% csrf_token %}
                     <div class="product-details-quantity">
                         {{form.order_amount}}

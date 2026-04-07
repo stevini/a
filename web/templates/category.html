@@ -144,7 +144,7 @@
                                     <div class="product">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
-                                                <a href="/product/{{item.name}}/">{{item.name}}</a>
+                                                <a href="/product/{{item.slug}}/">{{item.name}}</a>
                                             </h4>
 
                                             <span class="cart-product-info">
@@ -154,11 +154,11 @@
                                         </div><!-- End .product-cart-details -->
 
                                         <figure class="product-image-container">
-                                            <a href="/product/{{item.name}}/" class="product-image">
+                                            <a href="/product/{{item.slug}}/" class="product-image">
                                                 <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">
                                             </a>
                                         </figure>
-                                        <a href="/remove/{{item.name}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        <a href="/remove/{{item.slug}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
                                     </div><!-- End .product -->
                                 {% endfor %}
                                 </div><!-- End .cart-product -->
@@ -272,13 +272,13 @@
                                         <div class="product product-7 text-center">
                                             <figure class="product-media">
                                                 <span class="product-label label-new d-none">New</span>
-                                                <a href="/product/{{item}}/">
+                                                <a href="/product/{{item.slug}}/">
                                                     <img src="{% if item.image %} {{item.image.url}} {% else %} {{default_image.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{item.name}} image" class="product-image">
                                                 </a>
 
                                                 <div class="product-action">
                                                     <!--a href="/add/{{item.name}}/"  class="btn-product btn-cart"><span>add to cart</span></a-->
-                                                    <button type="button" class="btn-product btn-cart" data-toggle="modal" data-target="#exampleModalCenter"data-name="{{item.name}}" data-price="{{item.sellp}}" data-image="" title="Add to cart">
+                                                    <button type="button" class="btn-product btn-cart" data-toggle="modal" data-target="#exampleModalCenter"data-name="{{item.slug}}" data-price="{{item.sellp}}" data-image="" title="Add to cart">
                                                         <span>add to cart</span>
                                                     </button>
                                                 </div><!-- End .product-action -->
@@ -288,7 +288,7 @@
                                                 <div class="product-cat">
                                                     <a href="#">{{cat}}</a>
                                                 </div><!-- End .product-cat -->
-                                                <h3 class="product-title"><a href="/product/{{item.name}}/">{{item.name}}</a></h3><!-- End .product-title -->
+                                                <h3 class="product-title"><a href="/product/{{item.slug}}/">{{item.name}}</a></h3><!-- End .product-title -->
                                                 <div class="product-price">
                                                     Ksh{{item.sellp}}
                                                 </div><!-- End .product-price -->
@@ -374,7 +374,7 @@
                                             {% for item in category_products %}
 												<div class="filter-item">
 													<div class="">
-														<a href="/category/{{item.name}}/"><p class="" for="cat-{{item.id}}">{{item.name}}</p></a>
+														<a href="/category/{{item}}/"><p class="" for="cat-{{item.id}}">{{item.name}}</p></a>
 													</div><!-- End .custom-checkbox -->
 													<span class="item-count">{{item.count}}</span> <!--why is item.count not displaying on the template-->
 												</div><!-- End .filter-item -->

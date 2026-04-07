@@ -138,7 +138,7 @@
                                     <div class="product">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
-                                                <a href="/product/{{item.name}}/">{{item.name}}</a>
+                                                <a href="/product/{{item.slug}}/">{{item.name}}</a>
                                             </h4>
 
                                             <span class="cart-product-info">
@@ -148,11 +148,11 @@
                                         </div><!-- End .product-cart-details -->
 
                                         <figure class="product-image-container">
-                                            <a href="/product/{{item.name}}/" class="product-image">
+                                            <a href="/product/{{item.slug}}/" class="product-image">
                                                 <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">
                                             </a>
                                         </figure>
-                                        <a href="/remove/{{item.name}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        <a href="/remove/{{item.slug}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
                                     </div><!-- End .product -->
                                   {% endfor %}
                                 {% else %}
@@ -321,7 +321,7 @@
                         </div><!-- End .container intro-content -->
                     </div><!-- End .intro-slide -->
 
-                    <div class="intro-slide" style="background-image: url({% static 'assets/images/demos/demo-13/slider/slide-2.jpg' %});">
+                    <div class="intro-slide" style="background-image: url({% static '' %});">
                         <div class="container intro-content">
                             <div class="row">
                                 <div class="col-auto offset-lg-3 intro-col">
@@ -342,7 +342,7 @@
                         </div><!-- End .container intro-content -->
                     </div><!-- End .intro-slide -->
 
-                    <div class="intro-slide" style="background-image: url({% static 'assets/images/demos/demo-13/slider/slide-3.jpg' %});">
+                    <div class="intro-slide" style="background-image: url({% static '' %});">
                         <div class="container intro-content">
                             <div class="row">
                                 <div class="col-auto offset-lg-3 intro-col">
@@ -398,7 +398,7 @@
                     <div class="col-sm-6 col-lg-3">
                         <div class="banner banner-overlay">
                             <a href="#">
-                                <img src="{% static 'assets/images/demos/demo-13/banners/banner-1.jpg' %}" alt="Banner">
+                                <img src="{% static '' %}" alt="Banner">
                             </a>
 
                             <div class="banner-content">
@@ -494,8 +494,8 @@
                                 {% if product.image and product.active %}
                                 <div class="product">
                                     <figure class="product-media">
-                                        <a href="/product/{{product.name}}/">
-                                            <img src="{% if product.image %} {{product.image.url}} {% else %} {{defaultimage.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" class="product-image">
+                                        <a href="/product/{{product.slug}}/">
+                                            <img src="{% if product.url %} {{product.url}} {% else %} {{default_image.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" class="product-image">
                                         </a>
 
                                         <div class="product-action">
@@ -510,7 +510,7 @@
                                         <div class="product-cat">
                                             <a href="#">{{product.category}}</a>
                                         </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="/product/">{{product}}</a></h3><!-- End .product-title -->
+                                        <h3 class="product-title"><a href="/product/{{product.slug}}">{{product.name}}</a></h3><!-- End .product-title -->
                                         <div class="product-price">
                                             <span class="new-price">Ksh{{product.sellp}}</span>
                                             <!--span class="old-price">Was $290.00</span-->
@@ -552,7 +552,7 @@
                                 {% if product.image and product.active %}
                                 <div class="product">
                                     <figure class="product-media">
-                                        <a href="/product/{{product.name}}/">
+                                        <a href="/product/{{product.slug}}/">
                                             <img src="{% if product.image %} {{product.image.url}} {% else %} {{defaultimage.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" class="product-image">
                                         </a>
 
@@ -566,9 +566,9 @@
 
                                     <div class="product-body">
                                         <div class="product-cat">
-                                            <a href="#">{{item.name}}</a>
+                                            <a href="/product/{{product.slug}}/">{{item.name}}</a>
                                         </div><!-- End .product-cat -->
-                                        <h3 class="product-title"><a href="/product/">{{product}}</a></h3><!-- End .product-title -->
+                                        <h3 class="product-title"><a href="/product/{{product.slug}}/">{{product.name}}</a></h3><!-- End .product-title -->
                                         <div class="product-price">
                                             <span class="new-price">Ksh{{product.sellp}}</span>
                                             <!--span class="old-price">Was $310.00</span-->
@@ -672,13 +672,13 @@
                             {% if product.image and product.active %}
                             <div class="product">
                                 <figure class="product-media">
-                                    <a href="/product/{{product}}/">
+                                    <a href="/product/{{product.url}}/">
                                         <img src="{% if product.image %} {{product.image.url}} {% else %} {{default_image.image.url|default:'static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" class="product-image">
                                     </a>
 
                                     <div class="product-action">
                                         <!-- Button trigger modal -->
-                                        <button type="button" class="btn-product btn-cart" data-toggle="modal" data-target="#exampleModalCenter"data-name="{{product.name}}" data-price="{{product.sellp}}" data-image="{{product.image.url}}" title="Add to cart">
+                                        <button type="button" class="btn-product btn-cart" data-toggle="modal" data-target="#exampleModalCenter"data-name="{{product.slug}}" data-price="{{product.sellp}}" data-image="{{product.image.url}}" title="Add to cart">
                                             <span>add to cart</span>
                                         </button>
                                         <!--a href="/add/{{product.name}}/" class="btn-product btn-cart" title="Add to cart"><span>add to cart</span></a-->
@@ -689,7 +689,7 @@
                                     <div class="product-cat">
                                         <a href="#">{{product.category}}</a>
                                     </div><!-- End .product-cat -->
-                                    <h3 class="product-title"><a href="/product/">{{product.name}}</a></h3><!-- End .product-title -->
+                                    <h3 class="product-title"><a href="/product/{{product.slug}}">{{product.name}}</a></h3><!-- End .product-title -->
                                     <div class="product-price">
                                         Ksh{{product.sellp}}
                                     </div><!-- End .product-price -->

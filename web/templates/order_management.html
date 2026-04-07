@@ -88,39 +88,10 @@
                         <div class="dropdown cart-dropdown">
                             <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">{{ cart.product.count|default:0 }}</span>
+                                <span class="cart-count"></span>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right">
-                                <div class="dropdown-cart-products">
-                                {% for item in cart.product.all %}
-                                    <div class="product">
-                                        <div class="product-cart-details">
-                                            <h4 class="product-title">
-                                                <a href="/product/{{item.name}}/">{{item.name}}</a>
-                                            </h4>
-
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">{{item.order_amount}}</span>
-                                                x Ksh {{item.sellp}}
-                                            </span>
-                                        </div><!-- End .product-cart-details -->
-
-                                        <figure class="product-image-container">
-                                            <a href="/product/{{item.name}}" class="product-image">
-                                                <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="/remove/{{item.name}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div><!-- End .product -->
-                                {% endfor %}
-                                </div><!-- End .cart-product -->
-
-                                <div class="dropdown-cart-total">
-                                    <span>Total</span>
-
-                                    <span class="cart-total-price">Ksh {{cart.get_total}} </span>
-                                </div><!-- End .dropdown-cart-total -->
 
                                 <div class="dropdown-cart-action">
                                     <a href="/cart/" class="btn btn-primary">View Cart</a>
@@ -139,19 +110,33 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/home/">Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">404</li>
+                        <li class="breadcrumb-item active" aria-current="page">Manage Orders</li>
                     </ol>
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
 
-        	<div class="error-content text-center" style="background-image: url({% static 'assets/images/backgrounds/error-bg.jpg' %});">
+        	<div class="row" style="background-image: url({% static '' %});">
             	<div class="container">
-            		<h1 class="error-title">Error 404</h1><!-- End .error-title -->
-            		<p>We are sorry, the page you've requested is not available.</p>
-            		<a href="/home/" class="btn btn-outline-primary-2 btn-minwidth-lg">
-            			<span>BACK TO HOMEPAGE</span>
-            			<i class="icon-long-arrow-right"></i>
-            		</a>
+                    <div class="accordion" id="accordion-1">
+                        <div class="card">
+                            <div class="card-header" id="heading-1">
+                                <h2 class="card-title">
+                                    <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
+                                        Username . Ordernumber
+                                    </a>
+                                </h2>
+                            </div><!-- End .card-header -->
+                            <div id="collapse-1" class="collapse show" aria-labelledby="heading-1" data-parent="#accordion-1">
+                                <div class="card-body">
+                                    <h4>Products</h4>
+                                    <ul>
+                                        <li clas="ml-3">Product name . Product amount . Product price</li>
+                                        <li clas="ml-3">Product name . Product amount . Product price</li>
+                                    </ul>
+                                </div><!-- End .card-body -->
+                            </div><!-- End .collapse -->
+                        </div><!-- End .card -->
+                    </div><!-- End .accordion -->
             	</div><!-- End .container -->
         	</div><!-- End .error-content text-center -->
         </main><!-- End .main -->

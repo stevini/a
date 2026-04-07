@@ -292,7 +292,7 @@
 								<td class="product-col">
 									<div class="product">
 										<figure class="product-media">
-											<a href="/product/{{product.name}}/">
+											<a href="/product/{{product.slug}}/">
 												<img src="{% if product.image %} {{product.image.url}} {% else %} {{defaultimage.image.url|default:'/static/web/static/assets/images/demos/demo-13/products/default.jpeg'}} {% endif %}" alt="{{Product.name}} image" class="product-image">
 											</a>
 										</figure>

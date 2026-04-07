@@ -140,7 +140,7 @@
                                     <div class="product">
                                         <div class="product-cart-details">
                                             <h4 class="product-title">
-                                                <a href="/product/{{item.name}}/">{{item.name}}</a>
+                                                <a href="/product/{{item.slug}}/">{{item.name}}</a>
                                             </h4>
 
                                             <span class="cart-product-info">
@@ -150,11 +150,11 @@
                                         </div><!-- End .product-cart-details -->
 
                                         <figure class="product-image-container">
-                                            <a href="/product/{{item.name}}" class="product-image">
+                                            <a href="/product/{{item.slug}}" class="product-image">
                                                 <img src="{% static 'assets/images/products/cart/product-1.jpg' %}" alt="product">
                                             </a>
                                         </figure>
-                                        <a href="/remove/{{item.name}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                        <a href="/remove/{{item.slug}}/" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
                                     </div><!-- End .product -->
                                 {% endfor %}
                                 </div><!-- End .cart-product -->
@@ -297,7 +297,7 @@
 		                							<td><a href="#">{{product.name}}</a></td>
                                                     <td class='p-1'>{{product.order_amount}}</td>
 		                							<td>Ksh {{product.get_total}}</td>
-                                                    <td><a href="/removefrmcheckout/{{product.name}}/">remove</a></td>
+                                                    <td><a href="/removefrmcheckout/{{product.slug}}/">remove</a></td>
 		                						</tr>
                                             {% endfor %}
 		                						<tr class="summary-subtotal">

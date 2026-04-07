@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 import uuid
+from django.utils.text import slugify
 
 
 class DefaultImages(models.Model):
@@ -29,11 +30,18 @@ class Products(models.Model):
     name = models.CharField(max_length=200, unique=True)
     sellp = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     image = models.ImageField(upload_to='web/static/assets/images/demos/demo-13/products/', null=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     @property
     def get_total(self):
         total = self.sellp * self.order_amount
         return total
+
 
 
 class Category(models.Model):
@@ -133,3 +141,5 @@ class Order(models.Model):
         for item in self.product.all():
             products.add(item.get_total)
         return sum(products)
+    
+
